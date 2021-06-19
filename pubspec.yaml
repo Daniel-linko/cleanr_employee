@@ -69,6 +69,18 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+assets:
+  - lang/en.json
+  - lang/fr.json
+  - images/toilet.png
+  - images/shower.png
+  - images/bathtub.png
+  - images/kitchen.png
+  - images/room.png
+  - images/bathroom.png
+  - images/cleanr.png
+  - images/living.png
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
