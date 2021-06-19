@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.linkonomics.cleanr_employee">
+    package="com.linkonomics.clean_r_employee">
    <application
         android:label="cleanr_employee"
         android:icon="@mipmap/ic_launcher">
