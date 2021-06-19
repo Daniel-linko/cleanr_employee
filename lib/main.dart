@@ -1,34 +1,104 @@
+import 'package:clean_r/Notifications/MessageNotification.dart';
+import 'package:clean_r/UI/ClientOnBoarding/ClientOnBoarding.dart';
+import 'package:clean_r/localization/AppLocalization.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:facebook_app_events/facebook_app_events.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+import 'package:clean_r/Expressions/Price Calculator/ServicePriceCalculator.dart';
+import 'package:clean_r/UI/Base/CleanRSkin.dart';
+
+String? deviceToken;
+String? firebaseID;
+String? oldClientID;
+bool firstRun = true;
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  MyApp();
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: [
+          // ... app-specific localization delegate[s] here
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          AppLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('en', ''), // English, no country code
+          const Locale('fr', ''), // French, no country code
+          // ... other locales the app supports
+        ],
+        title: CleanRSkin.appName,
+        theme: ThemeData(
+          // This is the theme of your application.
+          //
+          // Try running your application with "flutter run". You'll see the
+          // application has a blue toolbar. Then, without quitting the app, try
+          // changing the primarySwatch below to Colors.green and then invoke
+          // "hot reload" (press "r" in the console where you ran "flutter run",
+          // or simply save your changes to "hot reload" in a Flutter IDE).
+          // Notice that the counter didn't reset back to zero; the application
+          // is not restarted.
+          brightness: Brightness.light,
+          primarySwatch: Colors.lightBlue,
+          primaryColor: Colors.white,
+          scaffoldBackgroundColor: Colors.white,
+          fontFamily: "SF UI Display Regular",
+          // This makes the visual density adapt to the platform that you run
+          // the app on. For desktop platforms, the controls will be smaller and
+          // closer together (more dense) than on mobile platforms.
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        darkTheme: ThemeData(
+          // This is the theme of your application.
+          //
+          // Try running your application with "flutter run". You'll see the
+          // application has a blue toolbar. Then, without quitting the app, try
+          // changing the primarySwatch below to Colors.green and then invoke
+          // "hot reload" (press "r" in the console where you ran "flutter run",
+          // or simply save your changes to "hot reload" in a Flutter IDE).
+          // Notice that the counter didn't reset back to zero; the application
+          // is not restarted.
+          brightness: Brightness.dark,
+          accentColor: Colors.blueGrey.shade500,
+          primarySwatch: Colors.blueGrey,
+          primaryColor: Colors.black,
+          scaffoldBackgroundColor: Colors.black,
+          fontFamily: "SF UI Display Regular",
+
+          // This makes the visual density adapt to the platform that you run
+          // the app on. For desktop platforms, the controls will be smaller and
+          // closer together (more dense) than on mobile platforms.
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: Material(
+          child: MyHomePage(title: CleanRSkin.appName),
+        ));
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
+
+  static final facebookAppEvents = FacebookAppEvents();
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -46,68 +116,213 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  @override
+  void initState() {
+    super.initState();
+  }
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+  void initDynamicLinks(String clientID) async {
+    FirebaseDynamicLinks.instance.onLink(
+        onSuccess: (PendingDynamicLinkData? dynamicLink) async {
+      final Uri? deepLink = dynamicLink?.link;
+
+      if (deepLink != null) {
+        print("onLink dynamic link : $deepLink");
+        Map<String, String> queryParameters = deepLink.queryParameters;
+        queryParameters.forEach((key, value) {
+          print("--- key : $key, value : $value");
+        });
+        storeReferalID(deepLink, clientID);
+      }
+    }, onError: (OnLinkErrorException e) async {
+      print('onLinkError');
+      print(e.message);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    MyHomePage.facebookAppEvents.logActivatedApp();
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+
+    return FutureBuilder(
+        future: Firebase.initializeApp(),
+        builder: (context, fireBaseAppSnapshot) {
+          if (fireBaseAppSnapshot.hasData) {
+            // TODO: put all that stuff in the state of the MessageBadge widget to get
+            // TODO: rid of the singleton and corresponding hacks
+            MessageNotification.create();
+            FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+              MessageNotification.onMessage(message.data);
+            });
+            FirebaseMessaging.onMessageOpenedApp
+                .listen((RemoteMessage message) {
+              MessageNotification.onLaunch(message.data);
+            });
+            return FutureBuilder(
+              future: FirebaseMessaging.instance.requestPermission(
+                  sound: true, badge: true, alert: true, provisional: true),
+              builder: (context, settingsSnapshot) {
+                if (settingsSnapshot.hasData) {
+                  var settings = settingsSnapshot.data;
+                  print("Settings registered: $settings");
+
+                  FirebaseMessaging.instance.getToken().then((String? token) {
+                    assert(token != null);
+                    print("Push Messaging token: $token");
+                    deviceToken = token!;
+                  });
+
+                  return loginAndContinue();
+                } else if (settingsSnapshot.hasError) {
+                  return Text("Error requesting messaging permissions");
+                } else {
+                  return Text("Requesting messaging permissions");
+                }
+              },
+            );
+          } else if (fireBaseAppSnapshot.hasError) {
+            return Text("Error : Firebase.initializeApp()");
+          } else {
+            return Text("Initializing Firebase Application");
+          }
+        });
+  }
+
+  FutureBuilder loginAndContinue() {
+    if (FirebaseAuth.instance.currentUser == null) {
+      return FutureBuilder(
+          future: FirebaseAuth.instance.signInAnonymously(),
+          builder: (context, userCredentialSnapshot) {
+            if (userCredentialSnapshot.hasError) {
+              return Text("Error in signInAnonymously ");
+            } else if (!userCredentialSnapshot.hasData) {
+              return Text("Loading signInAnonymously Data");
+            } else {
+              UserCredential userCredential = userCredentialSnapshot.data;
+              firebaseID = userCredential.user!.uid;
+              print("got new Anonymous Firebase ID:" + firebaseID!);
+              return initializesSPCAndDynamicLinkAndContinue(firebaseID!);
+            }
+          });
+    } else {
+      firebaseID = FirebaseAuth.instance.currentUser!.uid;
+      print("retrieved client ID:" + firebaseID!);
+      firstRun = false;
+      return initializesSPCAndDynamicLinkAndContinue(firebaseID!);
+    }
+  }
+
+  FutureBuilder<ServicePriceCalculator?>
+      initializesSPCAndDynamicLinkAndContinue(String clientID) {
+    this.initDynamicLinks(clientID);
+    return FutureBuilder<ServicePriceCalculator?>(
+        future: ServicePriceCalculator.create(),
+        builder: (context, spc) {
+          if (spc.hasError) {
+            return Text("SPC Error");
+          } else if (spc.connectionState == ConnectionState.done) {
+            return StreamBuilder<User?>(
+                stream: FirebaseAuth.instance.authStateChanges(),
+                builder: (context, firebaseUserSnapshot) {
+                  const clientIDKey = 'clientID';
+                  if (firebaseUserSnapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return Text(AppLocalizations.of(context)
+                        .translate("WaitingOnAuthentication"));
+                  } else if (firebaseUserSnapshot.hasError) {
+                    return Text(firebaseUserSnapshot.error.toString());
+                  } else if (firebaseUserSnapshot.hasData) {
+                    var firebaseUser = firebaseUserSnapshot.data;
+                    firebaseID = firebaseUser!.uid;
+                    List<UserInfo> providerData = firebaseUser.providerData;
+
+                    UserInfo? firstInfo;
+                    if (providerData.isNotEmpty) {
+                      firstInfo = providerData.first;
+                    }
+
+                    DocumentReference ref = FirebaseFirestore.instance
+                        .doc("Clients/" + firebaseUser.uid);
+                    ref.set({'tokenID': deviceToken}, SetOptions(merge: true));
+                    ClientID cliID = new ClientID(firebaseUser.uid);
+                    print("+++++++++++++++ CliID: " + cliID.localID);
+                    Future<SharedPreferences> localSnapshot =
+                        SharedPreferences.getInstance();
+                    localSnapshot.then((sn) {
+                      sn.setString(clientIDKey, firebaseID!);
+                    });
+                    return Material(
+                        key: ValueKey(cliID),
+                        child: initializeDynamicLinksAndContinue(
+                            cliID, firstInfo));
+                  } else {
+                    return Scaffold(
+                      body: Center(
+                        child: Material(
+                          borderRadius: BorderRadius.circular(25),
+                          elevation: 14,
+                          child: Text("MyHomePage:build : unexpected error"),
+                        ),
+                      ),
+                    );
+                  }
+                });
+          } else
+            return Scaffold(
+              body: Center(
+                child: Material(
+                  borderRadius: BorderRadius.circular(25),
+                  elevation: 14,
+                  child: Text("LoadingSPCCalculator"),
+                ),
+              ),
+            );
+        });
+  }
+
+  FutureBuilder<PendingDynamicLinkData?> initializeDynamicLinksAndContinue(
+      ClientID clientID, UserInfo? firstInfo) {
+    return FutureBuilder<PendingDynamicLinkData?>(
+        future: FirebaseDynamicLinks.instance.getInitialLink(),
+        builder: (context, initialLink) {
+          if (initialLink.hasError) {
+            return Text("Error in getInitialLink");
+          } else if (initialLink.hasData) {
+            final Uri? deepLink = initialLink.data!.link;
+            if (deepLink != null) {
+              storeReferalID(deepLink, clientID.localID);
+            }
+          }
+          return ClientOnBoarding(clientID, firstRun, firstInfo);
+        });
+  }
+
+  void storeReferalID(Uri deepLink, String clientID) {
+    print("Deep Link = $deepLink");
+    Map<String, String> queryParameters = deepLink.queryParameters;
+    queryParameters.forEach((key, value) {
+      print("--- key : $key, value : $value");
+    });
+
+    Map<String, String> map = deepLink.queryParameters;
+    if (map["uid"] != null) {
+      String uid = map["uid"]!;
+      String referalPath = "Clients/$clientID/Referals";
+      var referalReference =
+          FirebaseFirestore.instance.collection(referalPath).doc(uid);
+
+      FirebaseFirestore.instance.runTransaction((transaction) async {
+        transaction.set(
+          referalReference,
+          {"timestamp": DateTime.now().millisecondsSinceEpoch.toString()},
+        );
+      });
+    }
   }
 }
