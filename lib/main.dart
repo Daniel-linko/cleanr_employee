@@ -98,7 +98,7 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
 
-  static final facebookAppEvents = FacebookAppEvents();
+  //static final facebookAppEvents = FacebookAppEvents();
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -142,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    MyHomePage.facebookAppEvents.logActivatedApp();
+    //MyHomePage.facebookAppEvents.logActivatedApp();
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
