@@ -1,0 +1,85 @@
+{
+  "project_info": {
+    "project_number": "649350630854",
+    "firebase_url": "https://clean-r.firebaseio.com",
+    "project_id": "clean-r",
+    "storage_bucket": "clean-r.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:649350630854:android:1fc31acd6e02fdfbffb6c7",
+        "android_client_info": {
+          "package_name": "com.linkonomics.clean_r"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "649350630854-ip8q10gofdd8jr1dt9tmcka6qvisfuo7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCr7MvsMj69AOH1rGN2PWcPj4bisVjS0Es"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "649350630854-ip8q10gofdd8jr1dt9tmcka6qvisfuo7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "649350630854-3is31g02su5jbaldm0o8v7vetanfr9h1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.linkonomics.cleanr-app",
+                "app_store_id": "1556709592"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:649350630854:android:4b4017fe14cf0985ffb6c7",
+        "android_client_info": {
+          "package_name": "com.linkonomics.clean_r_employee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "649350630854-ip8q10gofdd8jr1dt9tmcka6qvisfuo7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCr7MvsMj69AOH1rGN2PWcPj4bisVjS0Es"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "649350630854-ip8q10gofdd8jr1dt9tmcka6qvisfuo7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "649350630854-3is31g02su5jbaldm0o8v7vetanfr9h1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.linkonomics.cleanr-app",
+                "app_store_id": "1556709592"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
