@@ -9,8 +9,8 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:clean_r/Expressions/Price Calculator/ServicePriceCalculator.dart';
 import 'package:clean_r/UI/Base/CleanRSkin.dart';
@@ -187,7 +187,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             );
           } else if (fireBaseAppSnapshot.hasError) {
-            return Text("Error : Firebase.initializeApp()");
+            return Text("Error : Firebase.initializeApp() " + fireBaseAppSnapshot.error.toString());
           } else {
             return Text("Initializing Firebase Application");
           }
