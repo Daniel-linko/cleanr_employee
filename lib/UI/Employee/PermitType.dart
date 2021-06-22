@@ -35,4 +35,10 @@ class NationalityPermitType extends Enum {
     // TODO: implement path
     throw UnimplementedError();
   }
+
+  @override
+  String typeName() {
+    // TODO: internationalization (on widget level I guess)
+    return "Nationality/Permit";
+  }
 }
