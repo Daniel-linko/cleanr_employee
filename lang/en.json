@@ -83,5 +83,9 @@
   "shareSubjectLabel": "Subject",
   "shareButtonText": "Share",
   "LetsDiscussButton" : "Contact Me!",
-  "LetsDiscussText" : "Thanks for your interest in our service! We suggest to finalize the details either here in the Chat or by Phone.\nPlease tell us your preference. \nWalter - cleanr.ai"
+  "LetsDiscussText" : "Thanks for your interest in our service! We suggest to finalize the details either here in the Chat or by Phone.\nPlease tell us your preference. \nWalter - cleanr.ai",
+  "Nationality/Permit" : "Nationality/Permit",
+  "Nationality/Permit_MandatoryMsg" : "Nationality/Permit is mandatory",
+  "Nationality/Permit_InvalidMsg" : "Invalid Nationality/Permit",
+  "LoadingEmployeeInformation" : "Loading Employee Information"
 }

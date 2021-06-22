@@ -1,23 +1,22 @@
+import 'package:clean_r/Expressions/Price Calculator/ServicePriceCalculator.dart';
 import 'package:clean_r/Notifications/MessageNotification.dart';
-import 'package:clean_r/UI/ClientOnBoarding/ClientOnBoarding.dart';
+import 'package:clean_r/UI/Base/CleanRSkin.dart';
 import 'package:clean_r/localization/AppLocalization.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:facebook_app_events/facebook_app_events.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:clean_r/Expressions/Price Calculator/ServicePriceCalculator.dart';
-import 'package:clean_r/UI/Base/CleanRSkin.dart';
+import 'UI/Employee/EmployeeOnBoarding.dart';
 
 String? deviceToken;
 String? firebaseID;
-String? oldClientID;
+String? oldEmployeeID;
 bool firstRun = true;
 
 Future<void> main() async {
@@ -121,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
-  void initDynamicLinks(String clientID) async {
+  void initDynamicLinks(String employeeID) async {
     FirebaseDynamicLinks.instance.onLink(
         onSuccess: (PendingDynamicLinkData? dynamicLink) async {
       final Uri? deepLink = dynamicLink?.link;
@@ -132,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
         queryParameters.forEach((key, value) {
           print("--- key : $key, value : $value");
         });
-        storeReferalID(deepLink, clientID);
+        storeReferalID(deepLink, employeeID);
       }
     }, onError: (OnLinkErrorException e) async {
       print('onLinkError');
@@ -187,7 +186,8 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             );
           } else if (fireBaseAppSnapshot.hasError) {
-            return Text("Error : Firebase.initializeApp() " + fireBaseAppSnapshot.error.toString());
+            return Text("Error : Firebase.initializeApp() " +
+                fireBaseAppSnapshot.error.toString());
           } else {
             return Text("Initializing Firebase Application");
           }
@@ -212,15 +212,15 @@ class _MyHomePageState extends State<MyHomePage> {
           });
     } else {
       firebaseID = FirebaseAuth.instance.currentUser!.uid;
-      print("retrieved client ID:" + firebaseID!);
+      print("retrieved employee ID:" + firebaseID!);
       firstRun = false;
       return initializesSPCAndDynamicLinkAndContinue(firebaseID!);
     }
   }
 
   FutureBuilder<ServicePriceCalculator?>
-      initializesSPCAndDynamicLinkAndContinue(String clientID) {
-    this.initDynamicLinks(clientID);
+      initializesSPCAndDynamicLinkAndContinue(String employeeID) {
+    this.initDynamicLinks(employeeID);
     return FutureBuilder<ServicePriceCalculator?>(
         future: ServicePriceCalculator.create(),
         builder: (context, spc) {
@@ -230,7 +230,7 @@ class _MyHomePageState extends State<MyHomePage> {
             return StreamBuilder<User?>(
                 stream: FirebaseAuth.instance.authStateChanges(),
                 builder: (context, firebaseUserSnapshot) {
-                  const clientIDKey = 'clientID';
+                  const employeeIDKey = 'employeeID';
                   if (firebaseUserSnapshot.connectionState ==
                       ConnectionState.waiting) {
                     return Text(AppLocalizations.of(context)
@@ -248,19 +248,19 @@ class _MyHomePageState extends State<MyHomePage> {
                     }
 
                     DocumentReference ref = FirebaseFirestore.instance
-                        .doc("Clients/" + firebaseUser.uid);
+                        .doc("Employees/" + firebaseUser.uid);
                     ref.set({'tokenID': deviceToken}, SetOptions(merge: true));
-                    ClientID cliID = new ClientID(firebaseUser.uid);
-                    print("+++++++++++++++ CliID: " + cliID.localID);
+                    String employeeID = firebaseUser.uid;
+                    print("+++++++++++++++ employeeID: " + employeeID);
                     Future<SharedPreferences> localSnapshot =
                         SharedPreferences.getInstance();
                     localSnapshot.then((sn) {
-                      sn.setString(clientIDKey, firebaseID!);
+                      sn.setString(employeeIDKey, firebaseID!);
                     });
                     return Material(
-                        key: ValueKey(cliID),
+                        key: ValueKey(employeeID),
                         child: initializeDynamicLinksAndContinue(
-                            cliID, firstInfo));
+                            employeeID, firstInfo));
                   } else {
                     return Scaffold(
                       body: Center(
@@ -287,7 +287,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   FutureBuilder<PendingDynamicLinkData?> initializeDynamicLinksAndContinue(
-      ClientID clientID, UserInfo? firstInfo) {
+      String employeeID, UserInfo? firstInfo) {
     return FutureBuilder<PendingDynamicLinkData?>(
         future: FirebaseDynamicLinks.instance.getInitialLink(),
         builder: (context, initialLink) {
@@ -296,14 +296,14 @@ class _MyHomePageState extends State<MyHomePage> {
           } else if (initialLink.hasData) {
             final Uri? deepLink = initialLink.data!.link;
             if (deepLink != null) {
-              storeReferalID(deepLink, clientID.localID);
+              storeReferalID(deepLink, employeeID);
             }
           }
-          return ClientOnBoarding(clientID, firstRun, firstInfo);
+          return EmployeeOnBoarding(employeeID, firstRun, firstInfo);
         });
   }
 
-  void storeReferalID(Uri deepLink, String clientID) {
+  void storeReferalID(Uri deepLink, String employeeID) {
     print("Deep Link = $deepLink");
     Map<String, String> queryParameters = deepLink.queryParameters;
     queryParameters.forEach((key, value) {
@@ -313,7 +313,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Map<String, String> map = deepLink.queryParameters;
     if (map["uid"] != null) {
       String uid = map["uid"]!;
-      String referalPath = "Clients/$clientID/Referals";
+      String referalPath = "Employees/$employeeID/Referals";
       var referalReference =
           FirebaseFirestore.instance.collection(referalPath).doc(uid);
 
