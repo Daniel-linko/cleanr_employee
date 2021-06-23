@@ -60,12 +60,15 @@ class EmployeeInformationFormState extends State<EmployeeInformationForm> {
                   AttributeFormField(employeeInformationModel.emailAttribute!));
               employeeInformationFields.add(AttributeFormField(
                   employeeInformationModel.phoneNumberAttribute!));
-              if (employeeInformationModel.nationalityPermit == null ||
-                  employeeInformationModel.nationalityPermit!.value == null) {
+              if (employeeInformationModel.nationalityPermit == null) {
                 employeeInformationModel.nationalityPermit = new EnumAttribute(
                     employeeInformationModel,
                     null,
                     NationalityPermitType("CH"));
+              }
+              if (employeeInformationModel.nationalityPermit!.value == null) {
+                employeeInformationModel.nationalityPermit!.value =
+                    NationalityPermitType("CH");
               }
               employeeInformationFields.add(EnumAttributeFormField(
                   employeeInformationModel.nationalityPermit));

@@ -52,9 +52,9 @@ class Employee extends ModelObject implements DataChangeObserver, CleanRUser {
   }
 
   void unarchive() {
-    DocumentReference clientDocumentReference =
+    DocumentReference employeeInformationDocumentReference =
         FirebaseFirestore.instance.doc(path());
-    clientDocumentReference
+    employeeInformationDocumentReference
         .set({Employee.isArchivedField: false}, SetOptions(merge: true));
   }
 
@@ -64,9 +64,9 @@ class Employee extends ModelObject implements DataChangeObserver, CleanRUser {
       CollectionReference employeeInformationModelCollectionReference =
           FirebaseFirestore.instance
               .collection(employeeInformationModelCollectionPath());
-      DocumentReference clientContactReference =
+      DocumentReference employeeInformationReference =
           employeeInformationModelCollectionReference.doc("1");
-      clientContactReference.set(
+      employeeInformationReference.set(
           employeeInformationModel!.toMap(), SetOptions(merge: true));
     }
   }
@@ -78,11 +78,11 @@ class Employee extends ModelObject implements DataChangeObserver, CleanRUser {
 
   Stream<Iterable<EmployeeInformationModel>> employeeInformationModelStream(
       BuildContext context) {
-    CollectionReference clientContactModelCollectionReference =
+    CollectionReference amployeeInformationModelCollectionReference =
         FirebaseFirestore.instance
             .collection(employeeInformationModelCollectionPath());
     Stream<QuerySnapshot> collectionStream =
-        clientContactModelCollectionReference.snapshots();
+        amployeeInformationModelCollectionReference.snapshots();
     Stream<List<DocumentSnapshot>> documents =
         collectionStream.map((event) => event.docs);
 
@@ -130,14 +130,12 @@ class Employee extends ModelObject implements DataChangeObserver, CleanRUser {
   @override
   Stream<Iterable<ClientContactModel>> clientContactModelStream(
       BuildContext context) {
-    // TODO: implement clientContactModelStream
-    throw UnimplementedError();
+    throw UnimplementedError(); // TODO : refactor to remove this weird dependency
   }
 
   @override
   Stream<Iterable<HomeModel>> homeModelStream(BuildContext context) {
-    // TODO: implement homeModelStream
-    throw UnimplementedError();
+    throw UnimplementedError(); // TODO : refactor to remove this weird dependency
   }
 
   @override

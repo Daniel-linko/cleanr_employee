@@ -41,7 +41,12 @@ class EmployeeInformationModel extends ModelObject {
     phoneNumberAttribute =
         TextAttribute.fromMap(map, _phoneDBField, true, this, null);
     nationalityPermit = EnumAttribute<NationalityPermitType>.fromMap(
-        map, _nationalityPermitDBField, true, this, null);
+        map,
+        _nationalityPermitDBField,
+        true,
+        this,
+        null,
+        NationalityPermitType.permitTypes.values.first);
   }
 
   @override
@@ -64,7 +69,12 @@ class EmployeeInformationModel extends ModelObject {
     emailAttribute =
         EmailAttribute.fromMap(map, _emailDBField, true, this, null);
     nationalityPermit = EnumAttribute<NationalityPermitType>.fromMap(
-        map, _emailDBField, true, this, null);
+        map,
+        _nationalityPermitDBField,
+        true,
+        this,
+        null,
+        NationalityPermitType.permitTypes.values.first);
   }
 
   @override
