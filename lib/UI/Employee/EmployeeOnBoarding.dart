@@ -82,7 +82,7 @@ class _EmployeeOnBoardingState extends State<EmployeeOnBoarding> {
                   builder: (context, bool isFirstRun, child) {
                     if (isFirstRun) {
                       return WelcomePage(snapshot.data!, firstRun, false,
-                          "https://cleanr.ai/welcome");
+                          "https://cleanr.ai/welcome_employees");
                     } else
                       return Scaffold(
                         key: ValueKey(employeeID),
