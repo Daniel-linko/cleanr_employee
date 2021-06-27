@@ -90,7 +90,7 @@ class _EmployeeOnBoardingState extends State<EmployeeOnBoarding> {
                             title: Logo(),
                             centerTitle: false,
                             actions: CleanRSkin.createAppBarActions(
-                                context, snapshot.data!, false)),
+                                context, snapshot.data!, false, "https://cleanr.ai/welcome_employees")),
                         body: EmployeeInformationForm(
                           employee: snapshot.data!,
                           firebaseUser: firebaseUser,
