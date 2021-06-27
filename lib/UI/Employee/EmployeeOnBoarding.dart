@@ -13,21 +13,22 @@ import 'package:flutter/services.dart';
 
 class EmployeeOnBoarding extends StatefulWidget {
   final String employeeID;
-  final bool firstRun;
+  final String currentPage;
   final UserInfo? firebaseUser;
 
-  const EmployeeOnBoarding(this.employeeID, this.firstRun, this.firebaseUser)
+
+  const EmployeeOnBoarding(this.employeeID, this.currentPage, this.firebaseUser)
       : super(key: null);
 
   @override
   _EmployeeOnBoardingState createState() =>
-      new _EmployeeOnBoardingState(employeeID, firstRun, firebaseUser);
+      new _EmployeeOnBoardingState(employeeID, currentPage, firebaseUser);
 }
 
 class _EmployeeOnBoardingState extends State<EmployeeOnBoarding> {
   final String employeeID;
   final UserInfo? firebaseUser;
-  ValueNotifier<bool> firstRun = new ValueNotifier<bool>(true);
+  ValueNotifier<String> firstRun = new ValueNotifier<String>("WelcomePage");
 
   int choice = 0;
   bool complete = false;
@@ -37,8 +38,8 @@ class _EmployeeOnBoardingState extends State<EmployeeOnBoarding> {
     complete = false;
   }
 
-  _EmployeeOnBoardingState(this.employeeID, bool firstRun, this.firebaseUser) {
-    this.firstRun.value = firstRun;
+  _EmployeeOnBoardingState(this.employeeID, String currentPage, this.firebaseUser) {
+    this.firstRun.value = currentPage;
   }
 
   @override
@@ -79,9 +80,9 @@ class _EmployeeOnBoardingState extends State<EmployeeOnBoarding> {
           return GestureDetector(
               child: ValueListenableBuilder(
                   valueListenable: firstRun,
-                  builder: (context, bool isFirstRun, child) {
-                    if (isFirstRun) {
-                      return WelcomePage(snapshot.data!, firstRun, false,
+                  builder: (context, String currentPage, child) {
+                    if (currentPage=="WelcomePage") {
+                      return WelcomePage(snapshot.data!, firstRun,"EmployeeInformationPage", false,
                           "https://cleanr.ai/welcome_employees");
                     } else
                       return Scaffold(

@@ -17,7 +17,7 @@ import 'UI/Employee/EmployeeOnBoarding.dart';
 String? deviceToken;
 String? firebaseID;
 String? oldEmployeeID;
-bool firstRun = true;
+String currentPage = "WelcomePage";
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -213,7 +213,7 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       firebaseID = FirebaseAuth.instance.currentUser!.uid;
       print("retrieved employee ID:" + firebaseID!);
-      firstRun = false;
+      currentPage = "EmployeeInformationPage";
       return initializesSPCAndDynamicLinkAndContinue(firebaseID!);
     }
   }
@@ -299,7 +299,7 @@ class _MyHomePageState extends State<MyHomePage> {
               storeReferalID(deepLink, employeeID);
             }
           }
-          return EmployeeOnBoarding(employeeID, firstRun, firstInfo);
+          return EmployeeOnBoarding(employeeID, currentPage, firstInfo);
         });
   }
 
