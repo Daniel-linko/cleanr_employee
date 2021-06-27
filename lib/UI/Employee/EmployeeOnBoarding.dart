@@ -4,6 +4,7 @@ import 'package:clean_r/UI/ClientOnBoarding/WelcomePage.dart';
 import 'package:clean_r/localization/AppLocalization.dart';
 import 'package:cleanr_employee/Model/Employee.dart';
 import 'package:cleanr_employee/UI/EmployeeOnBoarding/EmployeeInformationForm.dart';
+import 'package:cleanr_employee/UI/EmployeeOnBoarding/EmployeeSharingPage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,7 +29,7 @@ class EmployeeOnBoarding extends StatefulWidget {
 class _EmployeeOnBoardingState extends State<EmployeeOnBoarding> {
   final String employeeID;
   final UserInfo? firebaseUser;
-  ValueNotifier<String> firstRun = new ValueNotifier<String>("WelcomePage");
+  ValueNotifier<String> currentPage = new ValueNotifier<String>("WelcomePage");
 
   int choice = 0;
   bool complete = false;
@@ -38,8 +39,8 @@ class _EmployeeOnBoardingState extends State<EmployeeOnBoarding> {
     complete = false;
   }
 
-  _EmployeeOnBoardingState(this.employeeID, String currentPage, this.firebaseUser) {
-    this.firstRun.value = currentPage;
+  _EmployeeOnBoardingState(this.employeeID, String cp, this.firebaseUser) {
+    this.currentPage.value = cp;
   }
 
   @override
@@ -79,12 +80,12 @@ class _EmployeeOnBoardingState extends State<EmployeeOnBoarding> {
 
           return GestureDetector(
               child: ValueListenableBuilder(
-                  valueListenable: firstRun,
-                  builder: (context, String currentPage, child) {
-                    if (currentPage=="WelcomePage") {
-                      return WelcomePage(snapshot.data!, firstRun,"EmployeeInformationPage", false,
+                  valueListenable: currentPage,
+                  builder: (context, String cp, child) {
+                    if (cp=="WelcomePage") {
+                      return WelcomePage(snapshot.data!, currentPage,"EmployeeInformationPage", false,
                           "https://cleanr.ai/welcome_employees");
-                    } else
+                    } else if (cp=="EmployeeInformationPage")
                       return Scaffold(
                         key: ValueKey(employeeID),
                         appBar: AppBar(
@@ -95,9 +96,24 @@ class _EmployeeOnBoardingState extends State<EmployeeOnBoarding> {
                         body: EmployeeInformationForm(
                           employee: snapshot.data!,
                           firebaseUser: firebaseUser,
+                          currentPage: currentPage,
                         ),
                       );
-                  }),
+                    else
+                      return Scaffold(
+                        key: ValueKey(employeeID),
+                        appBar: AppBar(
+                            title: Logo(),
+                            centerTitle: false,
+                            actions: CleanRSkin.createAppBarActions(
+                                context, snapshot.data!, false, "https://cleanr.ai/welcome_employees")),
+                        body: EmployeeSharingPage(
+                            snapshot.data!,
+                            currentPage
+                        ),
+                      );
+                  }
+                    ),
               onTap: () {
                 SystemChannels.textInput.invokeMethod('TextInput.hide');
               });

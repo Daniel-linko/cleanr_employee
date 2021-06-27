@@ -15,14 +15,15 @@ import 'package:flutter/material.dart';
 class EmployeeInformationForm extends StatefulWidget {
   final Employee employee;
   final UserInfo? firebaseUser;
+  final ValueNotifier<String> currentPage;
 
   const EmployeeInformationForm(
-      {Key? key, required this.employee, required this.firebaseUser})
+      {Key? key, required this.employee, required this.firebaseUser, required this.currentPage})
       : super(key: key);
 
   @override
   State<EmployeeInformationForm> createState() {
-    return EmployeeInformationFormState(employee, firebaseUser);
+    return EmployeeInformationFormState(employee, firebaseUser,currentPage);
   }
 }
 
@@ -30,13 +31,14 @@ class EmployeeInformationFormState extends State<EmployeeInformationForm> {
   final Employee employee;
   ValueKey? formKey;
   final UserInfo? firebaseUser;
+  final ValueNotifier<String> currentPage;
 
   void initState() {
     super.initState();
     formKey = ValueKey(employee.employeeID);
   }
 
-  EmployeeInformationFormState(this.employee, this.firebaseUser);
+  EmployeeInformationFormState(this.employee, this.firebaseUser, this.currentPage);
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +109,9 @@ class EmployeeInformationFormState extends State<EmployeeInformationForm> {
                           color: CleanRSkin.buttonTextColor(context)),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    currentPage.value="EmployeeSharingPage";
+                  },
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
