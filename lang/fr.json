@@ -97,6 +97,8 @@
   "Nationality/Permit" : "Nationalité/Permis",
   "Nationality/Permit_MandatoryMsg" : "Nationalité/Permis est obligatoire",
   "Nationality/Permit_InvalidMsg" : "Nationalité/Permis invalide",
-  "LoadingEmployeeInformation" : "Chargement des Informations Employés"
+  "LoadingEmployeeInformation" : "Chargement des Informations Employés",
+  "IApply" : "Je dépose ma Candidature!",
+  "EmployeeContactInfos" : "Nous avons d'abord besoin de quelques informations sur vous"
 
 }

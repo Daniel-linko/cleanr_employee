@@ -96,5 +96,7 @@
   "Nationality/Permit" : "Nationality/Permit",
   "Nationality/Permit_MandatoryMsg" : "Nationality/Permit is mandatory",
   "Nationality/Permit_InvalidMsg" : "Invalid Nationality/Permit",
-  "LoadingEmployeeInformation" : "Loading Employee Information"
+  "LoadingEmployeeInformation" : "Loading Employee Information",
+  "IApply" : "I Apply to the Job!",
+  "EmployeeContactInfos" : "We first Need some Information from You"
 }

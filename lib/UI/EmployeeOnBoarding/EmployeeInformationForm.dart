@@ -54,6 +54,14 @@ class EmployeeInformationFormState extends State<EmployeeInformationForm> {
             List<Widget> employeeInformationFields = List.empty(growable: true);
             snapshot.data!
                 .forEach((EmployeeInformationModel employeeInformationModel) {
+              employeeInformationFields.add(
+                Text(
+                  AppLocalizations.of(context)
+                      .translate("EmployeeContactInfos"),
+                  style: CleanRSkin.pageHeaderStyle,
+                  textAlign: TextAlign.justify,
+                ),
+              );
               employeeInformationFields.add(TextBasedAttributeFormField(
                   employeeInformationModel.firstNameAttribute!));
               employeeInformationFields.add(TextBasedAttributeFormField(
@@ -62,12 +70,6 @@ class EmployeeInformationFormState extends State<EmployeeInformationForm> {
                   employeeInformationModel.emailAttribute!));
               employeeInformationFields.add(TextBasedAttributeFormField(
                   employeeInformationModel.zipCodeAttribute!));
-              employeeInformationFields.add(BooleanAttributeFormField(
-                  attribute: employeeInformationModel.ironingSkill!));
-              employeeInformationFields.add(NumericAttributeFormField(
-                  employeeInformationModel.minWeeklyHours!));
-              employeeInformationFields.add(NumericAttributeFormField(
-                  employeeInformationModel.maxWeeklyHours!));
               employeeInformationFields.add(TextBasedAttributeFormField(
                   employeeInformationModel.phoneNumberAttribute!));
               if (employeeInformationModel.nationalityPermit == null) {
@@ -82,6 +84,50 @@ class EmployeeInformationFormState extends State<EmployeeInformationForm> {
               }
               employeeInformationFields.add(EnumAttributeFormField(
                   employeeInformationModel.nationalityPermit));
+              employeeInformationFields.add(BooleanAttributeFormField(
+                  attribute: employeeInformationModel.ironingSkill!));
+              employeeInformationFields.add(NumericAttributeFormField(
+                  employeeInformationModel.minWeeklyHours!));
+              employeeInformationFields.add(NumericAttributeFormField(
+                  employeeInformationModel.maxWeeklyHours!));
+
+
+              employeeInformationFields.add(
+                ElevatedButton(
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 15, horizontal: 8),
+                    child: Text(
+                      AppLocalizations.of(context).translate("IApply"),
+                      textScaleFactor: CleanRSkin.designRatio(context),
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontFamily: CleanRSkin.buttonMainFont(),
+                          fontSize: 24,
+                          color: CleanRSkin.buttonTextColor(context)),
+                    ),
+                  ),
+                  onPressed: () {},
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    )),
+                    backgroundColor:
+                        CleanRSkin.buttonBackgroundColorMSP(context),
+                    overlayColor: MaterialStateProperty.resolveWith<Color>(
+                      (Set<MaterialState> states) {
+                        if (states.contains(MaterialState.disabled))
+                          return CleanRSkin.buttonBackgroundColorDisabled(
+                              context);
+                        else
+                          return CleanRSkin.buttonBackgroundColor(
+                              context); // Defer to the widget's default.
+                      },
+                    ),
+                  ),
+                ),
+              );
             });
             return FocusTraversalGroup(
                 child: Padding(
