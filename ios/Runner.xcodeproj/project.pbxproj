@@ -14,7 +14,6 @@
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		A40DA535268B6F6D00A601A5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A40DA534268B6F6D00A601A5 /* GoogleService-Info.plist */; };
 		A40DA539268B6FBF00A601A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40DA538268B6FBF00A601A5 /* AppDelegate.swift */; };
-		A40DA5D6268B7AAC00A601A5 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A40DA5D5268B7AAC00A601A5 /* Info.plist */; };
 		C4B84101544443618CDDE88E /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B4ADC8957A9E07868A60502 /* Pods_Runner.framework */; };
 /* End PBXBuildFile section */
 
@@ -49,7 +48,7 @@
 		A40DA534268B6F6D00A601A5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A40DA538268B6FBF00A601A5 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A40DA53A268B6FCE00A601A5 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
-		A40DA5D5268B7AAC00A601A5 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A40DA5D9268B7C4800A601A5 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A47491A725F191F700B4D8E2 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -108,7 +107,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
-				A40DA5D5268B7AAC00A601A5 /* Info.plist */,
+				A40DA5D9268B7C4800A601A5 /* Info.plist */,
 				A40DA53A268B6FCE00A601A5 /* Runner-Bridging-Header.h */,
 				A40DA538268B6FBF00A601A5 /* AppDelegate.swift */,
 				A40DA534268B6F6D00A601A5 /* GoogleService-Info.plist */,
@@ -195,7 +194,6 @@
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
-				A40DA5D6268B7AAC00A601A5 /* Info.plist in Resources */,
 				A40DA535268B6F6D00A601A5 /* GoogleService-Info.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
