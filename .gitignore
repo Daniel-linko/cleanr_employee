@@ -49,3 +49,5 @@ app.*.map.json
 /ios/Runner.xcworkspace/xcuserdata/
 /ios/Pods/
 /ios/.symlinks/
+/ios/Flutter/flutter_export_environment.sh
+/ios/Flutter/Generated.xcconfig
