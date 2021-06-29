@@ -108,5 +108,6 @@
   "Employee2EmployerShareDescription": "By sharing clean'r with your current or past employer you will let them have 2h work credited to their account and you will receive the same if they accept a new offer!",
   "Employee2EmployerShareDefaultText": "Hey, I think you might be interested by the Clean'R team' Services. They run an offer at this moment that will give you 2h of free work if you sign their offer!",
   "EmployeeAskRecommendationDescription": "By asking your current or past employer you may adjust your salary in relation the note given by your employer!",
-  "EmployeeAskRecommendationDefaultText": "Hey, Please rate my work in the app. They run an offer at this moment that will give you 2h of free work if you sign their offer!"
+  "EmployeeAskRecommendationDefaultText": "Hey, Please rate my work in the app. They run an offer at this moment that will give you 2h of free work if you sign their offer!",
+  "LoadingEmployeeSharing": "Loading Employee Sharing page"
 }

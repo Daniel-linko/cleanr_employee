@@ -1,13 +1,9 @@
 import 'package:clean_r/Base/Sharing.dart';
-import 'package:clean_r/UI/Base/SharingButton.dart';
 import 'package:clean_r/UI/Base/SharingPage.dart';
 import 'package:clean_r/localization/AppLocalization.dart';
 import 'package:cleanr_employee/Model/Employee.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:clean_r/UI/Base/CleanRSkin.dart';
-import 'package:clean_r/UI/Base/Logo.dart';
 import 'package:flutter/material.dart';
 
 class EmployeeSharingPage extends StatelessWidget {
@@ -24,7 +20,9 @@ class EmployeeSharingPage extends StatelessWidget {
           androidPackage,
           iosPackage,
           iosAppStoreID),
-      builder: (context, shortLink) { return Padding(
+      builder: (context, shortLink) {
+        if (shortLink.hasData) {
+        return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
         child: ElevatedButton(
           child: Padding(
@@ -65,7 +63,18 @@ class EmployeeSharingPage extends StatelessWidget {
             ),
           ),
         ),
-      );},
+      );} else {
+          return Center(
+            child: Material(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(AppLocalizations.of(context)
+                    .translate("LoadingEmployeeSharing")),
+              ),
+            ),
+          );
+        }
+        },
     );
   }
 

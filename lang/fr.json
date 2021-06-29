@@ -102,12 +102,12 @@
   "EmployeeSharePageThanks": "Merci",
   "EmployeeShareWithColleague": "Partager avec un collègue",
   "EmployeeShareWithEmployer": "Partager avec un employeur",
-  "EmployeeAskRecommendation": "Demander une recommendation"
+  "EmployeeAskRecommendation": "Demander une recommendation",
   "Employee2EmployeeShareDescription": "En partageant clean'r avec vos amis et connaissances, vous leur permettez de bénéficier de 2h de crédit de travail et vous en bénéficierez également s'ils acceptent une nouvelle offre!",
   "Employee2EmployeeShareDefaultText": "Salut, mon équipe de nettoyage me donne entière satisfaction et je pense que tu pourrais en bénéficier aussi. Ils offrent en ce moment une promotion de 2h de travail gratuite en cas de signature de leur offre!",
   "Employee2EmployerShareDescription": "En partageant clean'r avec vos collègues, vous leur permettez de bénéficier de 2h de crédit de travail et vous en bénéficierez également s'ils acceptent de travailler avec nous!",
   "Employee2EmployerShareDefaultText": "Salut, je pense que tu pourrais en être intéressé à travailler avec l'équipe Clean'R. Ils offrent en ce moment une promotion de 2h de salaire gratuite en cas de signature!",
   "EmployeeAskRecommendationDescription": "Demandez à un de vos clients de noter votre travail, vous serez récompensé!",
-  "EmployeeAskRecommendationDefaultText": "Bonjour, Notez bien mon travail s'il vous plait!"
-
+  "EmployeeAskRecommendationDefaultText": "Bonjour, Notez bien mon travail s'il vous plait!",
+  "LoadingEmployeeSharing": "Chargement de la page de partage employés"
 }
