@@ -51,3 +51,4 @@ app.*.map.json
 /ios/.symlinks/
 /ios/Flutter/flutter_export_environment.sh
 /ios/Flutter/Generated.xcconfig
+/ios/Flutter/Flutter.podspec
