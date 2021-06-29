@@ -13,15 +13,21 @@ class EmployeeSharingPage extends StatelessWidget {
   const EmployeeSharingPage(this.employee, this.currentPage) : super(key: null);
 
   Widget linkButton(
-      BuildContext context, String textTag,String androidPackage,String iosPackage,String iosAppStoreID,String shareDefaultTextTag,String shareDescriptionTag) {
+      BuildContext context, String textTag,String androidPackage,String iosPackage,String iosAppStoreID,String shareDefaultTextTag, String shareDefaultSubjectTag,String shareDescriptionTag, String linkType) {
+    String displayName="Undefined";
+    if(employee.employeeInformationModel?.firstNameAttribute?.value!=null)
+      displayName=employee.employeeInformationModel?.firstNameAttribute?.value??"Undefined";
+    if(employee.employeeInformationModel?.lastNameAttribute?.value!=null)
+      displayName=displayName+" " +(employee.employeeInformationModel?.lastNameAttribute?.value??"");
+
     return FutureBuilder<Uri>(
       future:Sharing.createDynamicLink(
           employee.userID(),
           androidPackage,
           iosPackage,
-          iosAppStoreID),
+          iosAppStoreID,linkType,displayName),
       builder: (context, shortLink) {
-        if (shortLink.hasData) {
+        //if (shortLink.hasData) {
         return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
         child: ElevatedButton(
@@ -43,6 +49,7 @@ class EmployeeSharingPage extends StatelessWidget {
                 shortLink: shortLink.data!,
                 shareDefaultTextTag: shareDefaultTextTag,
                 shareDescriptionTag: shareDescriptionTag,
+                shareDefaultSubjectTag: shareDefaultSubjectTag,
               );
             }));
           },
@@ -63,7 +70,7 @@ class EmployeeSharingPage extends StatelessWidget {
             ),
           ),
         ),
-      );} else {
+      );/*} else {
           return Center(
             child: Material(
               child: Padding(
@@ -73,7 +80,7 @@ class EmployeeSharingPage extends StatelessWidget {
               ),
             ),
           );
-        }
+        }*/
         },
     );
   }
@@ -83,10 +90,11 @@ class EmployeeSharingPage extends StatelessWidget {
     return CleanRSkin.wrapInFrame(
           ListView(children: [
             Text(AppLocalizations.of(context)
-                .translate("EmployeeSharePageThanks")),
-            linkButton(context, "EmployeeShareWithColleague",'com.linkonomics.cleanr_employee','com.linkonomics.cleanr-employees','??',"Employee2EmployeeShareDefaultText","Employee2EmployeeShareDescription"),
-            linkButton(context, "EmployeeShareWithEmployer",'com.linkonomics.clean_r','com.linkonomics.cleanr-app','1556709592',"Employee2EmployerShareDefaultText","Employee2EmployerShareDescription"),
-            linkButton(context, "EmployeeAskRecommendation",'com.linkonomics.clean_r','com.linkonomics.cleanr-app','1556709592',"EmployeeAskRecommendationDefaultText","EmployeeAskRecommendationDescription"),
+                .translate("EmployeeSharePageThanks"),style: CleanRSkin.pageHeaderStyle,
+                textAlign: TextAlign.justify),
+            linkButton(context, "EmployeeShareWithColleague",'com.linkonomics.clean_r_employee','com.linkonomics.cleanrEmployees','1574085365',"Employee2EmployeeShareDefaultText","Employee2EmployeeShareDefaultSubject","Employee2EmployeeShareDescription","referral"),
+            linkButton(context, "EmployeeShareWithEmployer",'com.linkonomics.clean_r','com.linkonomics.cleanr-app','1556709592',"Employee2EmployerShareDefaultText","Employee2EmployerShareDefaultSubject","Employee2EmployerShareDescription","referral"),
+            linkButton(context, "EmployeeAskRecommendation",'com.linkonomics.clean_r','com.linkonomics.cleanr-app','1556709592',"EmployeeAskRecommendationDefaultText","EmployeeAskRecommendationDefaultSubject","EmployeeAskRecommendationDescription","recommendation"),
           ]),
         );
   }
