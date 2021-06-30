@@ -39,7 +39,7 @@
 			<string>Referal Links</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>cleanr.link</string>
+				<string>cleanr-e.link</string>
 			</array>
 		</dict>
 	</array>
@@ -52,6 +52,7 @@
 	<key>FirebaseDynamicLinksCustomDomains</key>
 	<array>
 		<string>https://cleanr.link/ref</string>
+		<string>https://cleanr-e.link/ref</string>
 	</array>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
