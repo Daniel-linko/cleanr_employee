@@ -61,7 +61,7 @@ class ClientRatingsOverviewPage extends StatelessWidget {
       leading: Text(employeeRating.clientDisplayName.value!),
       trailing: RatingBar(
         itemSize: 20,
-        initialRating: employeeRating.ratingWorkQuality!.value!,
+        initialRating: employeeRating.ratingWorkQuality!.value != null ? employeeRating.ratingWorkQuality!.value! : 5,
         direction: Axis.horizontal,
         allowHalfRating: true,
         itemCount: 5,
