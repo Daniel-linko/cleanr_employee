@@ -7,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dash_chat/dash_chat.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'EmployeeContactModel_.dart';
+import 'EmployeeContactModel.dart';
 
 class Employee extends ModelObject implements DataChangeObserver, CleanRUser {
   // field names
