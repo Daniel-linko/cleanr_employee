@@ -6,8 +6,9 @@ import 'package:clean_r/UI/Base/NumericAttributeFormField.dart';
 import 'package:clean_r/UI/Base/TextBasedAttributeFormField.dart';
 import 'package:clean_r/localization/AppLocalization.dart';
 import 'package:cleanr_employee/Model/Employee.dart';
-import 'package:cleanr_employee/Model/EmployeeInformationModel.dart';
+import 'package:cleanr_employee/Model/EmployeeContactModel.dart';
 import 'package:cleanr_employee/UI/Employee/PermitType.dart';
+import 'package:cleanr_employee/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,12 +19,15 @@ class EmployeeInformationForm extends StatefulWidget {
   final ValueNotifier<String> currentPage;
 
   const EmployeeInformationForm(
-      {Key? key, required this.employee, required this.firebaseUser, required this.currentPage})
+      {Key? key,
+      required this.employee,
+      required this.firebaseUser,
+      required this.currentPage})
       : super(key: key);
 
   @override
   State<EmployeeInformationForm> createState() {
-    return EmployeeInformationFormState(employee, firebaseUser,currentPage);
+    return EmployeeInformationFormState(employee, firebaseUser, currentPage);
   }
 }
 
@@ -38,7 +42,8 @@ class EmployeeInformationFormState extends State<EmployeeInformationForm> {
     formKey = ValueKey(employee.employeeID);
   }
 
-  EmployeeInformationFormState(this.employee, this.firebaseUser, this.currentPage);
+  EmployeeInformationFormState(
+      this.employee, this.firebaseUser, this.currentPage);
 
   @override
   Widget build(BuildContext context) {
@@ -46,16 +51,15 @@ class EmployeeInformationFormState extends State<EmployeeInformationForm> {
         createUIFromEmployeeInformation(context, firebaseUser));
   }
 
-  StreamBuilder<Iterable<EmployeeInformationModel>>
-      createUIFromEmployeeInformation(
-          BuildContext context, UserInfo? firebaseUser) {
+  StreamBuilder<Iterable<EmployeeContactModel>> createUIFromEmployeeInformation(
+      BuildContext context, UserInfo? firebaseUser) {
     return StreamBuilder(
-        stream: employee.employeeInformationModelStream(context),
+        stream: employee.employeeContactModelStream(context),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<Widget> employeeInformationFields = List.empty(growable: true);
             snapshot.data!
-                .forEach((EmployeeInformationModel employeeInformationModel) {
+                .forEach((EmployeeContactModel employeeInformationModel) {
               employeeInformationFields.add(
                 Text(
                   AppLocalizations.of(context)
@@ -93,7 +97,6 @@ class EmployeeInformationFormState extends State<EmployeeInformationForm> {
               employeeInformationFields.add(NumericAttributeFormField(
                   employeeInformationModel.maxWeeklyHours!));
 
-
               employeeInformationFields.add(
                 ElevatedButton(
                   child: Padding(
@@ -110,7 +113,7 @@ class EmployeeInformationFormState extends State<EmployeeInformationForm> {
                     ),
                   ),
                   onPressed: () {
-                    currentPage.value="EmployeeSharingPage";
+                    currentPage.value = EmployeeSharingPageName;
                   },
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(

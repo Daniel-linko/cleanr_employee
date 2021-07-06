@@ -1,13 +1,13 @@
 import 'package:clean_r/Base/CleanRUser.dart';
 import 'package:clean_r/Base/DataChangeObserver.dart';
+import 'package:clean_r/Model/Base/ContactModel.dart';
 import 'package:clean_r/Model/Base/ModelObject.dart';
-import 'package:clean_r/Model/ClientContactModel.dart';
 import 'package:clean_r/Model/HomeDescription/HomeModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dash_chat/dash_chat.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'EmployeeInformationModel.dart';
+import 'EmployeeContactModel.dart';
 
 class Employee extends ModelObject implements DataChangeObserver, CleanRUser {
   // field names
@@ -18,7 +18,7 @@ class Employee extends ModelObject implements DataChangeObserver, CleanRUser {
 
   //Fields
   final String employeeID;
-  EmployeeInformationModel? employeeInformationModel;
+  EmployeeContactModel? employeeInformationModel;
   bool isArchived = false;
 
   String messagesCollectionPath() {
@@ -76,7 +76,7 @@ class Employee extends ModelObject implements DataChangeObserver, CleanRUser {
     return "Employees/" + employeeID;
   }
 
-  Stream<Iterable<EmployeeInformationModel>> employeeInformationModelStream(
+  Stream<Iterable<EmployeeContactModel>> employeeContactModelStream(
       BuildContext context) {
     CollectionReference amployeeInformationModelCollectionReference =
         FirebaseFirestore.instance
@@ -87,7 +87,7 @@ class Employee extends ModelObject implements DataChangeObserver, CleanRUser {
         collectionStream.map((event) => event.docs);
 
     return documents.map((event) => event.map((e) {
-          employeeInformationModel = EmployeeInformationModel.fromMap(
+          employeeInformationModel = EmployeeContactModel.fromMap(
               this, e.data() as Map<String, dynamic>);
           return employeeInformationModel!;
         }));
@@ -128,9 +128,8 @@ class Employee extends ModelObject implements DataChangeObserver, CleanRUser {
   }
 
   @override
-  Stream<Iterable<ClientContactModel>> clientContactModelStream(
-      BuildContext context) {
-    throw UnimplementedError(); // TODO : refactor to remove this weird dependency
+  Stream<Iterable<ContactModel>> contactModelStream(BuildContext context) {
+    return employeeContactModelStream(context);
   }
 
   @override

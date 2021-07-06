@@ -4,7 +4,7 @@ import 'package:clean_r/UI/Base/NullWidget.dart';
 import 'package:clean_r/UI/Base/SharingPage.dart';
 import 'package:clean_r/localization/AppLocalization.dart';
 import 'package:cleanr_employee/Model/Employee.dart';
-import 'package:cleanr_employee/Model/EmployeeInformationModel.dart';
+import 'package:cleanr_employee/Model/EmployeeContactModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -25,11 +25,11 @@ class EmployeeSharingPage extends StatelessWidget {
       String shareDescriptionTag,
       String domain,
       String linkType) {
-    return StreamBuilder<Iterable<EmployeeInformationModel>>(
-        stream: employee.employeeInformationModelStream(context),
+    return StreamBuilder<Iterable<EmployeeContactModel>>(
+        stream: employee.employeeContactModelStream(context),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            EmployeeInformationModel employeeInformationModel =
+            EmployeeContactModel employeeInformationModel =
                 snapshot.data!.first;
             String displayName = "Undefined";
             if (employeeInformationModel.firstNameAttribute?.value != null)
