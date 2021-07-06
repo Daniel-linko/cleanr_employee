@@ -37,10 +37,12 @@ class ClientRatingsOverviewPage extends StatelessWidget {
               allRatingsSnapshot.data!.docs.forEach(
                   (DocumentSnapshot<Map<String, dynamic>>
                       employeeRatingsDocument) {
-                EmployeeRating employeeRating =
-                    EmployeeRating.fromMap(employeeRatingsDocument.data()!);
-                tiles.add(
-                    createClientTileFromClientRatingDocument(employeeRating));
+                if (employeeRatingsDocument.data() != null) {
+                  EmployeeRating employeeRating =
+                      EmployeeRating.fromMap(employeeRatingsDocument.data()!);
+                  tiles.add(
+                      createClientTileFromClientRatingDocument(employeeRating));
+                }
               });
               print("Tiles:" + tiles.length.toString());
               return ListView(
