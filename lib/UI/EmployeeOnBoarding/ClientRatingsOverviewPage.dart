@@ -30,7 +30,7 @@ class ClientRatingsOverviewPage extends StatelessWidget {
           builder: (context,
               AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
                   allRatingsSnapshot) {
-            if (allRatingsSnapshot.hasData) {
+            if (allRatingsSnapshot.hasData && allRatingsSnapshot.data != null) {
               print("After allRatingsSnapshot.hasData");
               print("Number of docs:" +
                   allRatingsSnapshot.data!.docs.length.toString());
