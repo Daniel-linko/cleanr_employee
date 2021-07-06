@@ -10,6 +10,7 @@ import 'package:cleanr_employee/UI/Employee/PermitType.dart';
 
 import 'Employee.dart';
 
+
 class EmployeeContactModel extends ContactModel {
   final Employee employee;
 
