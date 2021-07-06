@@ -6,7 +6,7 @@ import 'package:clean_r/UI/Base/NumericAttributeFormField.dart';
 import 'package:clean_r/UI/Base/TextBasedAttributeFormField.dart';
 import 'package:clean_r/localization/AppLocalization.dart';
 import 'package:cleanr_employee/Model/Employee.dart';
-import 'package:cleanr_employee/Model/EmployeeContactModel.dart';
+import 'package:cleanr_employee/Model/EmployeeContactModel_.dart';
 import 'package:cleanr_employee/UI/Employee/PermitType.dart';
 import 'package:cleanr_employee/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
