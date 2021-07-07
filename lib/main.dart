@@ -1,4 +1,3 @@
-import 'package:clean_r/Expressions/Price Calculator/ServicePriceCalculator.dart';
 import 'package:clean_r/Notifications/MessageNotification.dart';
 import 'package:clean_r/UI/Base/CleanRSkin.dart';
 import 'package:clean_r/localization/AppLocalization.dart';
@@ -135,7 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
         queryParameters.forEach((key, value) {
           print("--- key : $key, value : $value");
         });
-        storeReferalID(deepLink, employeeID);
+        storeReferralID(deepLink, employeeID);
       }
     }, onError: (OnLinkErrorException e) async {
       print('onLinkError');
@@ -198,9 +197,9 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
-  FutureBuilder loginAndContinue() {
+  Widget loginAndContinue() {
     if (FirebaseAuth.instance.currentUser == null) {
-      return FutureBuilder(
+      return FutureBuilder<UserCredential?>(
           future: FirebaseAuth.instance.signInAnonymously(),
           builder: (context, userCredentialSnapshot) {
             if (userCredentialSnapshot.hasError) {
@@ -208,125 +207,109 @@ class _MyHomePageState extends State<MyHomePage> {
             } else if (!userCredentialSnapshot.hasData) {
               return Text("Loading signInAnonymously Data");
             } else {
-              UserCredential userCredential = userCredentialSnapshot.data;
+              UserCredential userCredential = userCredentialSnapshot.data!;
               firebaseID = userCredential.user!.uid;
               print("got new Anonymous Firebase ID:" + firebaseID!);
-              return initializesSPCAndDynamicLinkAndContinue(firebaseID!);
+              return initializeAuthenticationAndDynamicLinkAndContinue(
+                  firebaseID!);
             }
           });
     } else {
       firebaseID = FirebaseAuth.instance.currentUser!.uid;
       print("retrieved employee ID:" + firebaseID!);
       currentPageName = EmployeeInformationPageName;
-      return initializesSPCAndDynamicLinkAndContinue(firebaseID!);
+      return initializeAuthenticationAndDynamicLinkAndContinue(firebaseID!);
     }
   }
 
-  FutureBuilder<ServicePriceCalculator?>
-      initializesSPCAndDynamicLinkAndContinue(String employeeID) {
+  StreamBuilder<User?> initializeAuthenticationAndDynamicLinkAndContinue(
+      String employeeID) {
     this.initDynamicLinks(employeeID);
-    return FutureBuilder<ServicePriceCalculator?>(
-        future: ServicePriceCalculator.create(),
-        builder: (context, spc) {
-          if (spc.hasError) {
-            return Text("SPC Error");
-          } else if (spc.connectionState == ConnectionState.done) {
-            return StreamBuilder<User?>(
-                stream: FirebaseAuth.instance.authStateChanges(),
-                builder: (context, firebaseUserSnapshot) {
-                  const employeeIDKey = 'employeeID';
-                  if (firebaseUserSnapshot.connectionState ==
-                      ConnectionState.waiting) {
-                    return Text(AppLocalizations.of(context)
-                        .translate("WaitingOnAuthentication"));
-                  } else if (firebaseUserSnapshot.hasError) {
-                    return Text(firebaseUserSnapshot.error.toString());
-                  } else if (firebaseUserSnapshot.hasData) {
-                    var firebaseUser = firebaseUserSnapshot.data;
-                    firebaseID = firebaseUser!.uid;
-                    List<UserInfo> providerData = firebaseUser.providerData;
+    return StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, firebaseUserSnapshot) {
+          const employeeIDKey = 'employeeID';
+          if (firebaseUserSnapshot.connectionState == ConnectionState.waiting) {
+            return Text(AppLocalizations.of(context)
+                .translate("WaitingOnAuthentication"));
+          } else if (firebaseUserSnapshot.hasError) {
+            return Text(firebaseUserSnapshot.error.toString());
+          } else if (firebaseUserSnapshot.hasData) {
+            var firebaseUser = firebaseUserSnapshot.data;
+            firebaseID = firebaseUser!.uid;
+            List<UserInfo> providerData = firebaseUser.providerData;
 
-                    UserInfo? firstInfo;
-                    if (providerData.isNotEmpty) {
-                      firstInfo = providerData.first;
-                    }
+            UserInfo? firstInfo;
+            if (providerData.isNotEmpty) {
+              firstInfo = providerData.first;
+            }
 
-                    DocumentReference ref = FirebaseFirestore.instance
-                        .doc("Employees/" + firebaseUser.uid);
-                    ref.set({'tokenID': deviceToken}, SetOptions(merge: true));
-                    String employeeID = firebaseUser.uid;
-                    print("+++++++++++++++ employeeID: " + employeeID);
-                    Future<SharedPreferences> localSnapshot =
-                        SharedPreferences.getInstance();
-                    localSnapshot.then((sn) {
-                      sn.setString(employeeIDKey, firebaseID!);
-                    });
-                    return Material(
-                        key: ValueKey(employeeID),
-                        child: initializeDynamicLinksAndContinue(
-                            employeeID, firstInfo));
-                  } else {
-                    return Scaffold(
-                      body: Center(
-                        child: Material(
-                          borderRadius: BorderRadius.circular(25),
-                          elevation: 14,
-                          child: Text("MyHomePage:build : unexpected error"),
-                        ),
-                      ),
-                    );
-                  }
-                });
-          } else
+            DocumentReference ref =
+                FirebaseFirestore.instance.doc("Employees/" + firebaseUser.uid);
+            ref.set({'tokenID': deviceToken}, SetOptions(merge: true));
+            String employeeID = firebaseUser.uid;
+            print("+++++++++++++++ employeeID: " + employeeID);
+            Future<SharedPreferences> localSnapshot =
+                SharedPreferences.getInstance();
+            localSnapshot.then((sn) {
+              sn.setString(employeeIDKey, firebaseID!);
+            });
+            return Material(
+                key: ValueKey(employeeID),
+                child:
+                    initializeDynamicLinksAndContinue(employeeID, firstInfo));
+          } else {
             return Scaffold(
               body: Center(
                 child: Material(
                   borderRadius: BorderRadius.circular(25),
                   elevation: 14,
-                  child: Text("LoadingSPCCalculator"),
+                  child: Text("MyHomePage:build : unexpected error"),
                 ),
               ),
             );
-        });
-  }
-
-  FutureBuilder<PendingDynamicLinkData?> initializeDynamicLinksAndContinue(
-      String employeeID, UserInfo? firstInfo) {
-    return FutureBuilder<PendingDynamicLinkData?>(
-        future: FirebaseDynamicLinks.instance.getInitialLink(),
-        builder: (context, initialLink) {
-          if (initialLink.hasError) {
-            return Text("Error in getInitialLink");
-          } else if (initialLink.hasData) {
-            final Uri? deepLink = initialLink.data!.link;
-            if (deepLink != null) {
-              storeReferalID(deepLink, employeeID);
-            }
           }
-          return EmployeeOnBoarding(employeeID, currentPageName, firstInfo, currentPage);
         });
   }
+}
 
-  void storeReferalID(Uri deepLink, String employeeID) {
-    print("Deep Link = $deepLink");
-    Map<String, String> queryParameters = deepLink.queryParameters;
-    queryParameters.forEach((key, value) {
-      print("--- key : $key, value : $value");
-    });
-
-    Map<String, String> map = deepLink.queryParameters;
-    if (map["uid"] != null) {
-      String uid = map["uid"]!;
-      String referalPath = "Employees/$employeeID/Referals";
-      var referalReference =
-          FirebaseFirestore.instance.collection(referalPath).doc(uid);
-
-      FirebaseFirestore.instance.runTransaction((transaction) async {
-        transaction.set(
-          referalReference,
-          {"timestamp": DateTime.now().millisecondsSinceEpoch.toString()},
-        );
+FutureBuilder<PendingDynamicLinkData?> initializeDynamicLinksAndContinue(
+    String employeeID, UserInfo? firstInfo) {
+  return FutureBuilder<PendingDynamicLinkData?>(
+      future: FirebaseDynamicLinks.instance.getInitialLink(),
+      builder: (context, initialLink) {
+        if (initialLink.hasError) {
+          return Text("Error in getInitialLink");
+        } else if (initialLink.hasData) {
+          final Uri? deepLink = initialLink.data!.link;
+          if (deepLink != null) {
+            storeReferralID(deepLink, employeeID);
+          }
+        }
+        return EmployeeOnBoarding(
+            employeeID, currentPageName, firstInfo, currentPage);
       });
-    }
+}
+
+void storeReferralID(Uri deepLink, String employeeID) {
+  print("Deep Link = $deepLink");
+  Map<String, String> queryParameters = deepLink.queryParameters;
+  queryParameters.forEach((key, value) {
+    print("--- key : $key, value : $value");
+  });
+
+  Map<String, String> map = deepLink.queryParameters;
+  if (map["uid"] != null) {
+    String uid = map["uid"]!;
+    String referralPath = "Employees/$employeeID/Referrals";
+    var referralReference =
+        FirebaseFirestore.instance.collection(referralPath).doc(uid);
+
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      transaction.set(
+        referralReference,
+        {"timestamp": DateTime.now().millisecondsSinceEpoch.toString()},
+      );
+    });
   }
 }
