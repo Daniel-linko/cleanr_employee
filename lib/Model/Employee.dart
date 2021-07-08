@@ -14,12 +14,14 @@ class Employee extends ModelObject implements DataChangeObserver, CleanRUser {
   static const String _employeeInformationModelCollectionField =
       'EmployeeInformationInfos';
   static const String _messagesCollectionField = 'messages';
-  static const String isArchivedField = 'isArchived';
+  static const String isArchivedDBField = 'isArchived';
+  static const String _isSuperEmployeeDBField = 'isSuperEmployee';
 
   //Fields
   final String employeeID;
   EmployeeContactModel? employeeInformationModel;
   bool isArchived = false;
+  bool _isSuperEmployee = false;
 
   String messagesCollectionPath() {
     return path() + '/' + _messagesCollectionField;
@@ -31,10 +33,15 @@ class Employee extends ModelObject implements DataChangeObserver, CleanRUser {
 
   Employee(this.employeeID, Map<String, dynamic> map, BuildContext context)
       : super.fromMap(map) {
-    if (map[isArchivedField] == null) {
+    if (map[isArchivedDBField] == null) {
       isArchived = false;
     } else {
-      isArchived = map[isArchivedField];
+      isArchived = map[isArchivedDBField];
+    }
+    if (map[_isSuperEmployeeDBField] == null) {
+      _isSuperEmployee = false;
+    } else {
+      _isSuperEmployee = map[_isSuperEmployeeDBField];
     }
 
     CollectionReference employeeInformationModelCollectionReference =
@@ -55,7 +62,7 @@ class Employee extends ModelObject implements DataChangeObserver, CleanRUser {
     DocumentReference employeeInformationDocumentReference =
         FirebaseFirestore.instance.doc(path());
     employeeInformationDocumentReference
-        .set({Employee.isArchivedField: false}, SetOptions(merge: true));
+        .set({Employee.isArchivedDBField: false}, SetOptions(merge: true));
   }
 
   @override
@@ -155,5 +162,10 @@ class Employee extends ModelObject implements DataChangeObserver, CleanRUser {
   @override
   String userID() {
     return employeeID;
+  }
+
+  @override
+  bool isSuperEmployee() {
+    return _isSuperEmployee;
   }
 }

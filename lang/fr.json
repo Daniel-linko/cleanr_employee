@@ -108,5 +108,6 @@
   "LoadingEmployeeSharing": "Chargement de la page de partage employés",
   "Client Ratings": "Evaluations Clientes",
   "Messages": "Messages",
-  "Share More!" : "Partagez Encore!"
+  "Share More!" : "Partagez Encore!",
+  "shareButtonText": "Partager"
 }
