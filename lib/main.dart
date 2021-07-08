@@ -1,3 +1,4 @@
+import 'package:clean_r/Expressions/Price%20Calculator/ServicePriceCalculator.dart';
 import 'package:clean_r/Notifications/MessageNotification.dart';
 import 'package:clean_r/UI/Base/CleanRSkin.dart';
 import 'package:clean_r/localization/AppLocalization.dart';
@@ -153,48 +154,62 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
 
     return FutureBuilder(
-        future: Firebase.initializeApp(),
-        builder: (context, fireBaseAppSnapshot) {
-          if (fireBaseAppSnapshot.hasData) {
-            // TODO: put all that stuff in the state of the MessageBadge widget to get
-            // TODO: rid of the singleton and corresponding hacks
-            MessageNotification.create();
-            FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-              MessageNotification.onMessage(message.data);
-            });
-            FirebaseMessaging.onMessageOpenedApp
-                .listen((RemoteMessage message) {
-              MessageNotification.onLaunch(message.data);
-            });
-            return FutureBuilder(
-              future: FirebaseMessaging.instance.requestPermission(
-                  sound: true, badge: true, alert: true, provisional: true),
-              builder: (context, settingsSnapshot) {
-                if (settingsSnapshot.hasData) {
-                  var settings = settingsSnapshot.data;
-                  print("Settings registered: $settings");
+      future: Firebase.initializeApp(),
+      builder: (context, fireBaseAppSnapshot) {
+        if (fireBaseAppSnapshot.hasData) {
+          // TODO: put all that stuff in the state of the MessageBadge widget to get
+          // TODO: rid of the singleton and corresponding hacks
+          MessageNotification.create();
+          FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+            MessageNotification.onMessage(message.data);
+          });
+          FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+            MessageNotification.onLaunch(message.data);
+          });
+          return FutureBuilder<ServicePriceCalculator?>(
+              future: ServicePriceCalculator.create(),
+              builder: (context, spc) {
+                if (spc.hasError) {
+                  return Text("SPC Error");
+                } else if (spc.connectionState == ConnectionState.done) {
+                  return FutureBuilder(
+                    future: FirebaseMessaging.instance.requestPermission(
+                        sound: true,
+                        badge: true,
+                        alert: true,
+                        provisional: true),
+                    builder: (context, settingsSnapshot) {
+                      if (settingsSnapshot.hasData) {
+                        var settings = settingsSnapshot.data;
+                        print("Settings registered: $settings");
 
-                  FirebaseMessaging.instance.getToken().then((String? token) {
-                    assert(token != null);
-                    print("Push Messaging token: $token");
-                    deviceToken = token!;
-                  });
+                        FirebaseMessaging.instance
+                            .getToken()
+                            .then((String? token) {
+                          assert(token != null);
+                          print("Push Messaging token: $token");
+                          deviceToken = token!;
+                        });
 
-                  return loginAndContinue();
-                } else if (settingsSnapshot.hasError) {
-                  return Text("Error requesting messaging permissions");
+                        return loginAndContinue();
+                      } else if (settingsSnapshot.hasError) {
+                        return Text("Error requesting messaging permissions");
+                      } else {
+                        return Text("Requesting messaging permissions");
+                      }
+                    },
+                  );
+                } else if (fireBaseAppSnapshot.hasError) {
+                  return Text("Error : Firebase.initializeApp() " +
+                      fireBaseAppSnapshot.error.toString());
                 } else {
-                  return Text("Requesting messaging permissions");
+                  return Text("Initializing Firebase Application");
                 }
-              },
-            );
-          } else if (fireBaseAppSnapshot.hasError) {
-            return Text("Error : Firebase.initializeApp() " +
-                fireBaseAppSnapshot.error.toString());
-          } else {
-            return Text("Initializing Firebase Application");
-          }
-        });
+              });
+        } else
+          return Text("");
+      },
+    );
   }
 
   Widget loginAndContinue() {

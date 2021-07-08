@@ -21,12 +21,13 @@ class EmployeeOnBoarding extends StatefulWidget {
   final String currentPageName;
   final UserInfo? firebaseUser;
 
-  const EmployeeOnBoarding(this.employeeID, this.currentPageName, this.firebaseUser, this.currentPage)
+  const EmployeeOnBoarding(this.employeeID, this.currentPageName,
+      this.firebaseUser, this.currentPage)
       : super(key: null);
 
   @override
-  _EmployeeOnBoardingState createState() =>
-      new _EmployeeOnBoardingState(employeeID, currentPageName, firebaseUser, currentPage);
+  _EmployeeOnBoardingState createState() => new _EmployeeOnBoardingState(
+      employeeID, currentPageName, firebaseUser, currentPage);
 }
 
 class _EmployeeOnBoardingState extends State<EmployeeOnBoarding> {
@@ -42,7 +43,8 @@ class _EmployeeOnBoardingState extends State<EmployeeOnBoarding> {
     complete = false;
   }
 
-  _EmployeeOnBoardingState(this.employeeID, String cp, this.firebaseUser, this.currentPage) {
+  _EmployeeOnBoardingState(
+      this.employeeID, String cp, this.firebaseUser, this.currentPage) {
     this.currentPage.value = cp;
   }
 
@@ -86,8 +88,8 @@ class _EmployeeOnBoardingState extends State<EmployeeOnBoarding> {
               child: ValueListenableBuilder(
                   valueListenable: currentPage,
                   builder: (context, String cp, child) {
-                    switch(cp) {
-                      case WelcomePageName :
+                    switch (cp) {
+                      case WelcomePageName:
                         {
                           return WelcomePage(
                               snapshot.data!,
@@ -108,14 +110,17 @@ class _EmployeeOnBoardingState extends State<EmployeeOnBoarding> {
                                   context,
                                   employee,
                                   false,
-                                  "https://cleanr.ai/welcome_employees")),
+                                  "https://cleanr.ai/welcome_employees",
+                                  EmployeeCleanRSkin
+                                      .createEmployeeSpecificAdditionalButtons(
+                                          context, employee))),
                           body: EmployeeInformationForm(
                             employee: employee,
                             firebaseUser: firebaseUser,
                             currentPage: currentPage,
                           ),
                         );
-                      case EmployeeSharingPageName :
+                      case EmployeeSharingPageName:
                         return Scaffold(
                           key: ValueKey(employeeID),
                           appBar: AppBar(
@@ -125,11 +130,14 @@ class _EmployeeOnBoardingState extends State<EmployeeOnBoarding> {
                                   context,
                                   snapshot.data!,
                                   false,
-                                  "https://cleanr.ai/welcome_employees")),
-                          body: EmployeeSharingPage(
-                              snapshot.data!, currentPage),
+                                  "https://cleanr.ai/welcome_employees",
+                                  EmployeeCleanRSkin
+                                      .createEmployeeSpecificAdditionalButtons(
+                                          context, employee))),
+                          body:
+                              EmployeeSharingPage(snapshot.data!, currentPage),
                         );
-                      default :
+                      default:
                         assert(false);
                         return NullWidget();
                     }

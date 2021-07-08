@@ -1,3 +1,4 @@
+import 'package:clean_r/Base/CleanRUser.dart';
 import 'package:clean_r/UI/Base/CleanRSkin.dart';
 import 'package:clean_r/UI/Base/Logo.dart';
 import 'package:clean_r/UI/ClientOnBoarding/ChatPage.dart';
@@ -6,6 +7,8 @@ import 'package:cleanr_employee/UI/EmployeeOnBoarding/ClientRatingsOverviewPage.
 import 'package:cleanr_employee/UI/EmployeeOnBoarding/EmployeeSharingPage.dart';
 import 'package:cleanr_employee/main.dart';
 import 'package:flutter/material.dart';
+
+import 'ChatOverviewPage.dart';
 
 class EmployeeCleanRSkin {
   static Widget createEmployeeAppDrawer(
@@ -40,12 +43,34 @@ class EmployeeCleanRSkin {
           appBar: AppBar(
               title: Logo(),
               centerTitle: false,
-              actions: CleanRSkin.createAppBarActions(context, employee, false,
-                  "https://cleanr.ai/welcome_employees")),
+              actions: CleanRSkin.createAppBarActions(
+                  context,
+                  employee,
+                  false,
+                  "https://cleanr.ai/welcome_employees",
+                  createEmployeeSpecificAdditionalButtons(context, employee))),
           body: EmployeeSharingPage(employee, currentPage),
         );
       }));
     }));
     return drawerItems;
+  }
+
+  static List<Widget> createEmployeeSpecificAdditionalButtons(
+      BuildContext context, CleanRUser user) {
+    List<Widget> additionalButtons = List<Widget>.empty(growable: true);
+    if (user.isSuperEmployee()) {
+      additionalButtons.insert(
+          0,
+          IconButton(
+            icon: Icon(Icons.message),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return ChatOverviewPage(user: user);
+              }));
+            },
+          ));
+    }
+    return additionalButtons;
   }
 }
