@@ -1,5 +1,4 @@
 import 'package:clean_r/Expressions/Price%20Calculator/ServicePriceCalculator.dart';
-import 'package:clean_r/Notifications/MessageNotification.dart';
 import 'package:clean_r/UI/Base/CleanRSkin.dart';
 import 'package:clean_r/localization/AppLocalization.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -157,15 +156,6 @@ class _MyHomePageState extends State<MyHomePage> {
       future: Firebase.initializeApp(),
       builder: (context, fireBaseAppSnapshot) {
         if (fireBaseAppSnapshot.hasData) {
-          // TODO: put all that stuff in the state of the MessageBadge widget to get
-          // TODO: rid of the singleton and corresponding hacks
-          MessageNotification.create();
-          FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-            MessageNotification.onMessage(message.data);
-          });
-          FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-            MessageNotification.onLaunch(message.data);
-          });
           return FutureBuilder<ServicePriceCalculator?>(
               future: ServicePriceCalculator.create(),
               builder: (context, spc) {
