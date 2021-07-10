@@ -1,7 +1,6 @@
 import 'package:clean_r/Expressions/Price%20Calculator/ServicePriceCalculator.dart';
 import 'package:clean_r/UI/Base/CleanRSkin.dart';
 import 'package:clean_r/localization/AppLocalization.dart';
-import 'package:cleanr_employee/UI/Employee/KarmaPage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,7 +19,7 @@ String? oldEmployeeID;
 const String WelcomePageName = "WelcomePage";
 const String EmployeeInformationPageName = "EmployeeInformationPage";
 const String EmployeeSharingPageName = "EmployeeSharingPage";
-const String EmployeeKarmaPageName="EmployeeKarmaPage";
+const String EmployeeKarmaPageName = "EmployeeKarmaPage";
 String currentPageName = WelcomePageName;
 ValueNotifier<String> currentPage = new ValueNotifier<String>(WelcomePageName);
 
