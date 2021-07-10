@@ -64,7 +64,7 @@
   "LetsGetStarted": "Let's get Started!",
   "Close": "Close",
   "About": "About cleanr.ai",
-  "ClientSummary": "Client Summary",
+  "UserSummary": "Summary",
   "Rooms": "Rooms",
   "Laundry": "Laundry",
   "Bathtub": "Bathtub",
@@ -109,5 +109,7 @@
   "Client Ratings": "Client Ratings",
   "Messages": "Messages",
   "Share More!": "Share More!",
-  "shareButtonText": "Share"
+  "shareButtonText": "Share",
+  "ClientChats": "Client Chats",
+  "EmployeeChats": "Employee Chats"
 }
