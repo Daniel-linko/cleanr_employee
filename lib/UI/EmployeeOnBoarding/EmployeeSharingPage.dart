@@ -32,14 +32,11 @@ class EmployeeSharingPage extends StatelessWidget {
             EmployeeContactModel employeeInformationModel =
                 snapshot.data!.first;
             String displayName = "Undefined";
-            if (employeeInformationModel.firstNameAttribute?.value != null)
-              displayName =
-                  employeeInformationModel.firstNameAttribute?.value ??
-                      "Undefined";
-            if (employeeInformationModel.lastNameAttribute?.value != null)
-              displayName = displayName +
-                  " " +
-                  (employeeInformationModel.lastNameAttribute?.value ?? "");
+            if (employeeInformationModel.firstNameAttribute.value.isEmpty)
+              displayName = "Undefined";
+            displayName = displayName +
+                " " +
+                employeeInformationModel.lastNameAttribute.value;
             return FutureBuilder<Uri>(
               future: Sharing.createDynamicLink(
                   employee.userID(),

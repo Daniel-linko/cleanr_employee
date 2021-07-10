@@ -1,4 +1,3 @@
-import 'package:clean_r/Model/Base/EnumAttribute.dart';
 import 'package:clean_r/UI/Base/BooleanAttributeFormField.dart';
 import 'package:clean_r/UI/Base/CleanRSkin.dart';
 import 'package:clean_r/UI/Base/EnumAttributeFormField.dart';
@@ -7,7 +6,6 @@ import 'package:clean_r/UI/Base/TextBasedAttributeFormField.dart';
 import 'package:clean_r/localization/AppLocalization.dart';
 import 'package:cleanr_employee/Model/Employee.dart';
 import 'package:cleanr_employee/Model/EmployeeContactModel.dart';
-import 'package:cleanr_employee/UI/Employee/PermitType.dart';
 import 'package:cleanr_employee/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -69,33 +67,23 @@ class EmployeeInformationFormState extends State<EmployeeInformationForm> {
                 ),
               );
               employeeInformationFields.add(TextBasedAttributeFormField(
-                  employeeInformationModel.firstNameAttribute!));
+                  employeeInformationModel.firstNameAttribute));
               employeeInformationFields.add(TextBasedAttributeFormField(
-                  employeeInformationModel.lastNameAttribute!));
+                  employeeInformationModel.lastNameAttribute));
               employeeInformationFields.add(TextBasedAttributeFormField(
-                  employeeInformationModel.emailAttribute!));
+                  employeeInformationModel.emailAttribute));
               employeeInformationFields.add(TextBasedAttributeFormField(
-                  employeeInformationModel.zipCodeAttribute!));
+                  employeeInformationModel.zipCodeAttribute));
               employeeInformationFields.add(TextBasedAttributeFormField(
-                  employeeInformationModel.phoneNumberAttribute!));
-              if (employeeInformationModel.nationalityPermit == null) {
-                employeeInformationModel.nationalityPermit = new EnumAttribute(
-                    employeeInformationModel,
-                    null,
-                    NationalityPermitType("CH"));
-              }
-              if (employeeInformationModel.nationalityPermit!.value == null) {
-                employeeInformationModel.nationalityPermit!.value =
-                    NationalityPermitType("CH");
-              }
+                  employeeInformationModel.phoneNumberAttribute));
               employeeInformationFields.add(EnumAttributeFormField(
                   employeeInformationModel.nationalityPermit));
               employeeInformationFields.add(BooleanAttributeFormField(
-                  attribute: employeeInformationModel.ironingSkill!));
+                  attribute: employeeInformationModel.ironingSkill));
               employeeInformationFields.add(NumericAttributeFormField(
-                  employeeInformationModel.minWeeklyHours!));
+                  employeeInformationModel.minWeeklyHours));
               employeeInformationFields.add(NumericAttributeFormField(
-                  employeeInformationModel.maxWeeklyHours!));
+                  employeeInformationModel.maxWeeklyHours));
 
               employeeInformationFields.add(
                 ElevatedButton(

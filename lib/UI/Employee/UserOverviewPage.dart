@@ -80,25 +80,25 @@ class _ClientOverviewBoxState extends State<ClientOverviewBox> {
               } else if (snapshot.hasData) {
                 ContactModel contactModel = snapshot.data!.first;
                 wList.add(labelValueRow(
-                    contactModel.firstNameAttribute!.labelTag(),
-                    contactModel.firstNameAttribute!.value == null
+                    contactModel.firstNameAttribute.labelTag(),
+                    contactModel.firstNameAttribute.value.isEmpty
                         ? "N/A"
-                        : contactModel.firstNameAttribute!.value!));
+                        : contactModel.firstNameAttribute.value));
                 wList.add(labelValueRow(
-                    contactModel.lastNameAttribute!.labelTag(),
-                    contactModel.lastNameAttribute!.value == null
+                    contactModel.lastNameAttribute.labelTag(),
+                    contactModel.lastNameAttribute.value.isEmpty
                         ? "N/A"
-                        : contactModel.lastNameAttribute!.value!));
+                        : contactModel.lastNameAttribute.value));
                 wList.add(labelValueRow(
-                    contactModel.phoneNumberAttribute!.labelTag(),
-                    contactModel.phoneNumberAttribute!.value == null
+                    contactModel.phoneNumberAttribute.labelTag(),
+                    contactModel.phoneNumberAttribute.value.isEmpty
                         ? "N/A"
-                        : contactModel.phoneNumberAttribute!.value!));
+                        : contactModel.phoneNumberAttribute.value));
                 wList.add(labelValueRow(
-                    contactModel.emailAttribute!.labelTag(),
-                    contactModel.emailAttribute!.value == null
+                    contactModel.emailAttribute.labelTag(),
+                    contactModel.emailAttribute.value.isEmpty
                         ? "N/A"
-                        : contactModel.emailAttribute!.value!));
+                        : contactModel.emailAttribute.value));
 
                 wList.add(labelValueRow(
                     "IsEmployee", translate(user.isEmployee() ? "Yes" : "No")));
@@ -224,37 +224,24 @@ class _ClientOverviewBoxState extends State<ClientOverviewBox> {
                       ),
                     ));
 
+                    wList.add(labelValueRow(laundryModel.shirtCount.labelTag(),
+                        laundryModel.shirtCount.value.toInt().toString()));
                     wList.add(labelValueRow(
-                        laundryModel.shirtCount!.labelTag(),
-                        laundryModel.shirtCount!.value == null
-                            ? "N/A"
-                            : laundryModel.shirtCount!.value!
+                        laundryModel.pantsSkirtsCount.labelTag(),
+                        laundryModel.pantsSkirtsCount.value
                                 .toInt()
                                 .toString()));
                     wList.add(labelValueRow(
-                        laundryModel.pantsSkirtsCount!.labelTag(),
-                        laundryModel.pantsSkirtsCount!.value == null
-                            ? "N/A"
-                            : laundryModel.pantsSkirtsCount!.value!
+                        laundryModel.jacketCount.labelTag(),
+                        laundryModel.jacketCount.value
                                 .toInt()
                                 .toString()));
                     wList.add(labelValueRow(
-                        laundryModel.jacketCount!.labelTag(),
-                        laundryModel.jacketCount!.value == null
-                            ? "N/A"
-                            : laundryModel.jacketCount!.value!
-                                .toInt()
-                                .toString()));
+                        laundryModel.ironedWeight.labelTag(),
+                        laundryModel.ironedWeight.value.toString()));
                     wList.add(labelValueRow(
-                        laundryModel.ironedWeight!.labelTag(),
-                        laundryModel.ironedWeight!.value == null
-                            ? "N/A"
-                            : laundryModel.ironedWeight!.value.toString()));
-                    wList.add(labelValueRow(
-                        laundryModel.nonIronedWeight!.labelTag(),
-                        laundryModel.nonIronedWeight!.value == null
-                            ? "N/A"
-                            : laundryModel.nonIronedWeight!.value.toString()));
+                        laundryModel.nonIronedWeight.labelTag(),
+                        laundryModel.nonIronedWeight.value.toString()));
                     wList.add(Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: ElevatedButton(

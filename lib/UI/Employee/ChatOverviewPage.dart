@@ -169,12 +169,12 @@ class ChatOverviewPage extends StatelessWidget {
                 userContactSnapshot.error.toString());
           } else if (userContactSnapshot.hasData) {
             ContactModel userContactModel = userContactSnapshot.data!.first;
-            String? firstName = userContactModel.firstNameAttribute!.value;
-            if (firstName == null) {
+            String firstName = userContactModel.firstNameAttribute.value;
+            if (firstName.isEmpty) {
               firstName = "<No First Name>";
             }
-            String? lastName = userContactModel.lastNameAttribute!.value;
-            if (lastName == null) {
+            String lastName = userContactModel.lastNameAttribute.value;
+            if (lastName.isEmpty) {
               lastName = "<No Last Name>";
             }
 

@@ -11,8 +11,13 @@ class NationalityPermitType extends Enum {
   NationalityPermitType(this.rep);
 
   @override
-  Enum? fromRepresentation(String representation) {
-    return permitTypes[representation];
+  Enum fromRepresentation(String representation) {
+    Enum? fromR = permitTypes[representation];
+    if (fromR == null) {
+      return permitTypes["CH"]!;
+    } else {
+      return fromR;
+    }
   }
 
   @override

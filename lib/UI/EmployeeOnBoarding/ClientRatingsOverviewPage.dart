@@ -58,10 +58,10 @@ class ClientRatingsOverviewPage extends StatelessWidget {
   Widget createClientTileFromClientRatingDocument(
       EmployeeRating employeeRating) {
     return ListTile(
-      leading: Text(employeeRating.clientDisplayName.value!),
+      leading: Text(employeeRating.clientDisplayName.value),
       trailing: RatingBar(
         itemSize: 20,
-        initialRating: employeeRating.ratingWorkQuality!.value != null ? employeeRating.ratingWorkQuality!.value! : 5,
+        initialRating: employeeRating.ratingWorkQuality.value,
         direction: Axis.horizontal,
         allowHalfRating: true,
         itemCount: 5,

@@ -168,4 +168,8 @@ class Employee extends ModelObject implements DataChangeObserver, CleanRUser {
   bool isSuperEmployee() {
     return _isSuperEmployee;
   }
+
+  String employeeClientRatingsPath() {
+    return "EmployeeRatings/$employeeID/ClientRatings";
+  }
 }

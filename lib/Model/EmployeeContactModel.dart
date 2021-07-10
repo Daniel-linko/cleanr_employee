@@ -17,19 +17,19 @@ class EmployeeContactModel extends ContactModel {
   static const String _minWeeklyHoursDBField = 'Min Weekly Hours';
   static const String _maxWeeklyHoursDBField = 'Max Weekly Hours';
   static const String _nationalityPermitDBField = 'Nationality/Permit';
-  ZipCodeAttribute? zipCodeAttribute;
-  BooleanAttribute? ironingSkill;
-  NumericAttribute? minWeeklyHours;
-  NumericAttribute? maxWeeklyHours;
-  EnumAttribute<NationalityPermitType>? nationalityPermit;
+  late ZipCodeAttribute zipCodeAttribute;
+  late BooleanAttribute ironingSkill;
+  late NumericAttribute minWeeklyHours;
+  late NumericAttribute maxWeeklyHours;
+  late EnumAttribute<NationalityPermitType> nationalityPermit;
 
   EmployeeContactModel(this.employee) : super() {
-    zipCodeAttribute = ZipCodeAttribute(this, null);
-    ironingSkill = BooleanAttribute(this, null);
-    minWeeklyHours = NumericAttribute(this, null, 1);
-    maxWeeklyHours = NumericAttribute(this, null, 1);
+    zipCodeAttribute = ZipCodeAttribute(this, null, 1234);
+    ironingSkill = BooleanAttribute(this, null, false);
+    minWeeklyHours = NumericAttribute(this, null, 1, 0);
+    maxWeeklyHours = NumericAttribute(this, null, 1, 40);
     nationalityPermit = EnumAttribute<NationalityPermitType>(
-        this, null, NationalityPermitType.permitTypes.values.first);
+        this, null, NationalityPermitType.permitTypes["CH"]!);
   }
 
   EmployeeContactModel.fromMap(this.employee, Map<String, dynamic> map)
@@ -39,22 +39,22 @@ class EmployeeContactModel extends ContactModel {
 
   @override
   void addToMap(Map<String, dynamic> map) {
-    map.addAll({_ironingSkillDBField: ironingSkill!.value});
-    map.addAll({_minWeeklyHoursDBField: minWeeklyHours!.value});
-    map.addAll({_maxWeeklyHoursDBField: maxWeeklyHours!.value});
-    map.addAll({_nationalityPermitDBField: nationalityPermit!.value});
+    map.addAll({_ironingSkillDBField: ironingSkill.value});
+    map.addAll({_minWeeklyHoursDBField: minWeeklyHours.value});
+    map.addAll({_maxWeeklyHoursDBField: maxWeeklyHours.value});
+    map.addAll({_nationalityPermitDBField: nationalityPermit.value});
   }
 
   void fromMap(Map<String, dynamic> map, DataChangeObserver? observer) {
     super.fromMap(map, observer);
     zipCodeAttribute =
-        ZipCodeAttribute.fromMap(map, _zipCodeDBField, true, this, null);
-    ironingSkill =
-        BooleanAttribute.fromMap(map, _ironingSkillDBField, true, this, null);
+        ZipCodeAttribute.fromMap(map, _zipCodeDBField, 1234, true, this, null);
+    ironingSkill = BooleanAttribute.fromMap(
+        map, _ironingSkillDBField, false, true, this, null);
     minWeeklyHours = NumericAttribute.fromMap(
-        map, _minWeeklyHoursDBField, true, 1, this, null);
+        map, _minWeeklyHoursDBField, true, 1, 0, this, null);
     maxWeeklyHours = NumericAttribute.fromMap(
-        map, _maxWeeklyHoursDBField, true, 1, this, null);
+        map, _maxWeeklyHoursDBField, true, 1, 40, this, null);
     nationalityPermit = EnumAttribute<NationalityPermitType>.fromMap(
         map,
         _nationalityPermitDBField,
@@ -72,5 +72,10 @@ class EmployeeContactModel extends ContactModel {
   @override
   CleanRUser user() {
     return employee;
+  }
+
+  bool isComplete() {
+    return firstNameAttribute.value.isNotEmpty &&
+        lastNameAttribute.value.isNotEmpty;
   }
 }
