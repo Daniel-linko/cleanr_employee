@@ -1,3 +1,4 @@
+import 'package:clean_r/Base/CleanRUser.dart';
 import 'package:clean_r/Base/DataChangeObserver.dart';
 import 'package:clean_r/Model/Base/BooleanAttribute.dart';
 import 'package:clean_r/Model/Base/ContactModel.dart';
@@ -9,7 +10,6 @@ import 'package:clean_r/Model/Base/ZipCodeAttribute.dart';
 import 'package:cleanr_employee/UI/Employee/PermitType.dart';
 
 import 'Employee.dart';
-
 
 class EmployeeContactModel extends ContactModel {
   final Employee employee;
@@ -81,5 +81,10 @@ class EmployeeContactModel extends ContactModel {
   @override
   String path() {
     return employee.employeeInformationModelCollectionPath() + "/1";
+  }
+
+  @override
+  CleanRUser user() {
+    return employee;
   }
 }
