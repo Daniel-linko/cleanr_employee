@@ -3,6 +3,7 @@ import 'package:clean_r/UI/Base/CleanRSkin.dart';
 import 'package:clean_r/UI/Base/Logo.dart';
 import 'package:clean_r/UI/ClientOnBoarding/ChatPage.dart';
 import 'package:cleanr_employee/Model/Employee.dart';
+import 'package:cleanr_employee/UI/Employee/KarmaPage.dart';
 import 'package:cleanr_employee/UI/EmployeeOnBoarding/ClientRatingsOverviewPage.dart';
 import 'package:cleanr_employee/UI/EmployeeOnBoarding/EmployeeSharingPage.dart';
 import 'package:cleanr_employee/main.dart';
@@ -53,6 +54,24 @@ class EmployeeCleanRSkin {
         );
       }));
     }));
+    drawerItems.add(DrawerItem(Icons.supervised_user_circle_rounded, "KarmaPage", () {
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return Scaffold(
+          appBar: AppBar(
+              title: Logo(),
+              centerTitle: false,
+              actions: CleanRSkin.createAppBarActions(
+                  context,
+                  employee,
+                  false,
+                  "https://cleanr.ai/welcome_employees",
+                  createEmployeeSpecificAdditionalButtons(context, employee))),
+          body: KarmaPage(employee: employee, currentPage:currentPage),
+        );
+      }));
+    }));
+
+
     return drawerItems;
   }
 

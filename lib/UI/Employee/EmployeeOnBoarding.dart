@@ -15,6 +15,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'KarmaPage.dart';
+
 class EmployeeOnBoarding extends StatefulWidget {
   final ValueNotifier<String> currentPage;
   final String employeeID;
@@ -98,6 +100,27 @@ class _EmployeeOnBoardingState extends State<EmployeeOnBoarding> {
                               false,
                               "https://cleanr.ai/welcome_employees");
                         }
+                      case EmployeeKarmaPageName:
+                        return Scaffold(
+                          key: ValueKey(employeeID),
+                          drawer: EmployeeCleanRSkin.createEmployeeAppDrawer(
+                              context, employee),
+                          appBar: AppBar(
+                              title: Logo(),
+                              centerTitle: false,
+                              actions: CleanRSkin.createAppBarActions(
+                                  context,
+                                  employee,
+                                  false,
+                                  "https://cleanr.ai/welcome_employees",
+                                  EmployeeCleanRSkin
+                                      .createEmployeeSpecificAdditionalButtons(
+                                      context, employee))),
+                          body: KarmaPage(
+                            employee: employee,
+                            currentPage: currentPage,
+                          ),
+                        );
                       case EmployeeInformationPageName:
                         return Scaffold(
                           key: ValueKey(employeeID),
