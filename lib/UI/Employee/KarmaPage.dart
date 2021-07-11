@@ -103,7 +103,9 @@ class KarmaPage extends StatelessWidget {
                                           radius: 50.0,
                                           lineWidth: 5.0,
                                           percent: karmaScore / 7,
-                                          center: Text("$karmaScore/7"),
+                                          center: Text(
+                                              karmaScore.toStringAsFixed(1) +
+                                                  "/7"),
                                           progressColor: Colors.green)),
                                   ListTile(
                                     leading: Text(
