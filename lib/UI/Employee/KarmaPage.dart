@@ -94,11 +94,14 @@ class KarmaPage extends StatelessWidget {
                                         normalizeInfiniteToOne(
                                             nbEmployeeReferralsAccepted);
 
+                                var designRatio =
+                                    CleanRSkin.designRatio(context);
                                 return ListView(children: [
-                                  Text(""),
+                                  Text("", style: TextStyle(fontSize: 6)),
                                   ListTile(
                                       leading: Text("Karma",
-                                          style: TextStyle(fontSize: 16)),
+                                          style: TextStyle(
+                                              fontSize: 16 * designRatio)),
                                       trailing: CircularPercentIndicator(
                                           radius: 50.0,
                                           lineWidth: 5.0,
@@ -110,7 +113,8 @@ class KarmaPage extends StatelessWidget {
                                   ListTile(
                                     leading: Text(
                                         "Employee Information Filled Out",
-                                        style: TextStyle(fontSize: 16)),
+                                        style: TextStyle(
+                                            fontSize: 16 * designRatio)),
                                     trailing: AbsorbPointer(
                                         child: contactModel != null &&
                                                 contactModel.isComplete()
@@ -128,7 +132,8 @@ class KarmaPage extends StatelessWidget {
                                     leading: Text(
                                         AppLocalizations.of(context)
                                             .translate("WorkRating"),
-                                        style: TextStyle(fontSize: 16)),
+                                        style: TextStyle(
+                                            fontSize: 16 * designRatio)),
                                     trailing: AbsorbPointer(
                                       child: RatingBar(
                                         itemSize: 20,
@@ -149,7 +154,8 @@ class KarmaPage extends StatelessWidget {
                                     leading: Text(
                                         AppLocalizations.of(context)
                                             .translate("RelationshipRating"),
-                                        style: TextStyle(fontSize: 16)),
+                                        style: TextStyle(
+                                            fontSize: 16 * designRatio)),
                                     trailing: AbsorbPointer(
                                       child: RatingBar(
                                         itemSize: 20,
@@ -171,14 +177,16 @@ class KarmaPage extends StatelessWidget {
                                       leading: Text(
                                           AppLocalizations.of(context)
                                               .translate("ClientEvaluations"),
-                                          style: TextStyle(fontSize: 16)),
+                                          style: TextStyle(
+                                              fontSize: 16 * designRatio)),
                                       trailing: Text(nbRatings.toString())),
                                   ListTile(
                                       leading: Text(
                                           AppLocalizations.of(context)
                                               .translate(
                                                   "ClientReferralsAccepted"),
-                                          style: TextStyle(fontSize: 16)),
+                                          style: TextStyle(
+                                              fontSize: 16 * designRatio)),
                                       trailing: Text(nbClientReferralsAccepted
                                           .toString())),
                                   ListTile(
@@ -186,7 +194,8 @@ class KarmaPage extends StatelessWidget {
                                           AppLocalizations.of(context)
                                               .translate(
                                                   "EmployeeReferralsAccepted"),
-                                          style: TextStyle(fontSize: 16)),
+                                          style: TextStyle(
+                                              fontSize: 16 * designRatio)),
                                       trailing: Text(nbEmployeeReferralsAccepted
                                           .toString())),
                                   Padding(
@@ -195,7 +204,8 @@ class KarmaPage extends StatelessWidget {
                                       AppLocalizations.of(context)
                                           .translate("HowToImproveKarma"),
                                       textAlign: TextAlign.justify,
-                                      style: TextStyle(fontSize: 16),
+                                      style:
+                                          TextStyle(fontSize: 16 * designRatio),
                                     ),
                                   ),
                                   Padding(
