@@ -317,5 +317,17 @@ void storeReferralID(Uri deepLink, String employeeID) {
         {"timestamp": DateTime.now().millisecondsSinceEpoch.toString()},
       );
     });
+
+    String referralAcceptedPath = "EmployeeRatings/$uid/EmployeeReferralAcceptance";
+    var referralAcceptedReference =
+    FirebaseFirestore.instance.collection(referralAcceptedPath).doc(employeeID);
+
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      transaction.set(
+        referralAcceptedReference,
+        {"timestamp": DateTime.now().millisecondsSinceEpoch.toString()},
+      );
+    });
+
   }
 }

@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 
 class EmployeeSharingPage extends StatelessWidget {
   final Employee employee;
-  final ValueNotifier<String> currentPage;
+  final ValueNotifier<String>? currentPage;
 
   const EmployeeSharingPage(this.employee, this.currentPage) : super(key: null);
 
@@ -108,8 +108,11 @@ class EmployeeSharingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CleanRSkin.wrapInFrame(
       ListView(children: [
-        Text(AppLocalizations.of(context).translate("EmployeeSharePageThanks"),
-            style: CleanRSkin.pageHeaderStyle, textAlign: TextAlign.justify),
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Text(AppLocalizations.of(context).translate("EmployeeSharePageThanks"),
+              style: CleanRSkin.pageHeaderStyle, textAlign: TextAlign.justify),
+        ),
         linkButton(
             context,
             "EmployeeShareWithColleague",

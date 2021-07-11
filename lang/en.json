@@ -112,5 +112,12 @@
   "shareButtonText": "Share",
   "KarmaPage": "My Karma",
   "ClientChats": "Client Chats",
-  "EmployeeChats": "Employee Chats"
+  "EmployeeChats": "Employee Chats",
+  "HowToImproveKarma" : "Your Karma score drives your chances to get hired and your chances to get bonuses from recommending people that turn into clients! Continue growing your Karma by completing all information and sharing more!",
+  "PersonalInformation" : "Personal Information",
+  "WorkRating" : "Work Rating",
+  "RelationshipRating" : "Relationship Rating",
+  "ClientEvaluations" : "Client Evaluations",
+  "ClientReferralsAccepted" : "Clients Brought In",
+  "EmployeeReferralsAccepted" : "Employees Brought In"
 }

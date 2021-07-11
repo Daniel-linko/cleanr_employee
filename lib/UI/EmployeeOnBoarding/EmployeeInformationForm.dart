@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 class EmployeeInformationForm extends StatefulWidget {
   final Employee employee;
   final UserInfo? firebaseUser;
-  final ValueNotifier<String> currentPage;
+  final ValueNotifier<String>? currentPage;
 
   const EmployeeInformationForm(
       {Key? key,
@@ -33,7 +33,7 @@ class EmployeeInformationFormState extends State<EmployeeInformationForm> {
   final Employee employee;
   ValueKey? formKey;
   final UserInfo? firebaseUser;
-  final ValueNotifier<String> currentPage;
+  final ValueNotifier<String>? currentPage;
 
   void initState() {
     super.initState();
@@ -85,44 +85,46 @@ class EmployeeInformationFormState extends State<EmployeeInformationForm> {
               employeeInformationFields.add(NumericAttributeFormField(
                   employeeInformationModel.maxWeeklyHours));
 
-              employeeInformationFields.add(
-                ElevatedButton(
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 15, horizontal: 8),
-                    child: Text(
-                      AppLocalizations.of(context).translate("IApply"),
-                      textScaleFactor: CleanRSkin.designRatio(context),
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontFamily: CleanRSkin.buttonMainFont(),
-                          fontSize: 24,
-                          color: CleanRSkin.buttonTextColor(context)),
+              if (currentPage != null) {
+                employeeInformationFields.add(
+                  ElevatedButton(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 8),
+                      child: Text(
+                        AppLocalizations.of(context).translate("IApply"),
+                        textScaleFactor: CleanRSkin.designRatio(context),
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontFamily: CleanRSkin.buttonMainFont(),
+                            fontSize: 24,
+                            color: CleanRSkin.buttonTextColor(context)),
+                      ),
+                    ),
+                    onPressed: () {
+                      currentPage!.value = EmployeeSharingPageName;
+                    },
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      )),
+                      backgroundColor:
+                          CleanRSkin.buttonBackgroundColorMSP(context),
+                      overlayColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.disabled))
+                            return CleanRSkin.buttonBackgroundColorDisabled(
+                                context);
+                          else
+                            return CleanRSkin.buttonBackgroundColor(
+                                context); // Defer to the widget's default.
+                        },
+                      ),
                     ),
                   ),
-                  onPressed: () {
-                    currentPage.value = EmployeeSharingPageName;
-                  },
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    )),
-                    backgroundColor:
-                        CleanRSkin.buttonBackgroundColorMSP(context),
-                    overlayColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.disabled))
-                          return CleanRSkin.buttonBackgroundColorDisabled(
-                              context);
-                        else
-                          return CleanRSkin.buttonBackgroundColor(
-                              context); // Defer to the widget's default.
-                      },
-                    ),
-                  ),
-                ),
-              );
+                );
+              }
             });
             return FocusTraversalGroup(
                 child: Padding(

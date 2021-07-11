@@ -3,8 +3,8 @@ import 'package:clean_r/UI/Base/CleanRSkin.dart';
 import 'package:clean_r/UI/Base/Logo.dart';
 import 'package:clean_r/UI/ClientOnBoarding/ChatPage.dart';
 import 'package:cleanr_employee/Model/Employee.dart';
-import 'package:cleanr_employee/UI/Employee/KarmaPage.dart';
 import 'package:cleanr_employee/UI/EmployeeOnBoarding/ClientRatingsOverviewPage.dart';
+import 'package:cleanr_employee/UI/EmployeeOnBoarding/EmployeeInformationForm.dart';
 import 'package:cleanr_employee/UI/EmployeeOnBoarding/EmployeeSharingPage.dart';
 import 'package:cleanr_employee/main.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +28,17 @@ class EmployeeCleanRSkin {
   static List<DrawerItem> createEmployeeAppDrawerItems(
       BuildContext context, Employee employee) {
     List<DrawerItem> drawerItems = List<DrawerItem>.empty(growable: true);
+    drawerItems.add(DrawerItem(Icons.person, "PersonalInformation", () {
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return Scaffold(
+            appBar: AppBar(
+              title: Logo(),
+              centerTitle: false,
+            ),
+            body: EmployeeInformationForm(
+                employee: employee, firebaseUser: null, currentPage: null));
+      }));
+    }));
     drawerItems.add(DrawerItem(Icons.star, "Client Ratings", () {
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return ClientRatingsOverviewPage(employee: employee);
@@ -38,39 +49,17 @@ class EmployeeCleanRSkin {
         return ChatPage(employee, employee.messagePath());
       }));
     }));
-    drawerItems.add(DrawerItem(Icons.email, "Share More!", () {
+    drawerItems.add(DrawerItem(Icons.share, "Share More!", () {
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return Scaffold(
           appBar: AppBar(
-              title: Logo(),
-              centerTitle: false,
-              actions: CleanRSkin.createAppBarActions(
-                  context,
-                  employee,
-                  false,
-                  "https://cleanr.ai/welcome_employees",
-                  createEmployeeSpecificAdditionalButtons(context, employee))),
+            title: Logo(),
+            centerTitle: false,
+          ),
           body: EmployeeSharingPage(employee, currentPage),
         );
       }));
     }));
-    drawerItems.add(DrawerItem(Icons.supervised_user_circle_rounded, "KarmaPage", () {
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return Scaffold(
-          appBar: AppBar(
-              title: Logo(),
-              centerTitle: false,
-              actions: CleanRSkin.createAppBarActions(
-                  context,
-                  employee,
-                  false,
-                  "https://cleanr.ai/welcome_employees",
-                  createEmployeeSpecificAdditionalButtons(context, employee))),
-          body: KarmaPage(employee: employee, currentPage:currentPage),
-        );
-      }));
-    }));
-
 
     return drawerItems;
   }

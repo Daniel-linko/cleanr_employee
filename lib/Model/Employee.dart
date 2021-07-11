@@ -85,11 +85,11 @@ class Employee extends ModelObject implements DataChangeObserver, CleanRUser {
 
   Stream<Iterable<EmployeeContactModel>> employeeContactModelStream(
       BuildContext context) {
-    CollectionReference amployeeInformationModelCollectionReference =
+    CollectionReference employeeInformationModelCollectionReference =
         FirebaseFirestore.instance
             .collection(employeeInformationModelCollectionPath());
     Stream<QuerySnapshot> collectionStream =
-        amployeeInformationModelCollectionReference.snapshots();
+        employeeInformationModelCollectionReference.snapshots();
     Stream<List<DocumentSnapshot>> documents =
         collectionStream.map((event) => event.docs);
 
@@ -171,5 +171,11 @@ class Employee extends ModelObject implements DataChangeObserver, CleanRUser {
 
   String employeeClientRatingsPath() {
     return "EmployeeRatings/$employeeID/ClientRatings";
+  }
+  String clientReferralAcceptancePath() {
+    return "EmployeeRatings/$employeeID/ClientReferralAcceptance";
+  }
+  String employeeReferralAcceptancePath() {
+    return "EmployeeRatings/$employeeID/EmployeeReferralAcceptance";
   }
 }
