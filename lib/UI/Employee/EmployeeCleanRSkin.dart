@@ -2,6 +2,7 @@ import 'package:clean_r/Base/CleanRUser.dart';
 import 'package:clean_r/UI/Base/CleanRSkin.dart';
 import 'package:clean_r/UI/Base/Logo.dart';
 import 'package:clean_r/UI/ClientOnBoarding/ChatPage.dart';
+import 'package:clean_r/UI/ClientOnBoarding/WelcomePage.dart';
 import 'package:cleanr_employee/Model/Employee.dart';
 import 'package:cleanr_employee/UI/EmployeeOnBoarding/ClientRatingsOverviewPage.dart';
 import 'package:cleanr_employee/UI/EmployeeOnBoarding/EmployeeInformationForm.dart';
@@ -12,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'ChatOverviewPage.dart';
 
 class EmployeeCleanRSkin {
+  static const String aboutURL = "https://cleanr.ai/welcome_employees";
+
   static Widget createEmployeeAppDrawer(
       BuildContext context, Employee employee) {
     return CleanRSkin.createDrawer(
@@ -57,6 +60,18 @@ class EmployeeCleanRSkin {
             centerTitle: false,
           ),
           body: EmployeeSharingPage(employee, currentPage),
+        );
+      }));
+    }));
+    drawerItems.add(DrawerItem(Icons.info, "About", () {
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Logo(),
+            centerTitle: false,
+          ),
+          body: WelcomePage(
+              employee, null, null, true, EmployeeCleanRSkin.aboutURL),
         );
       }));
     }));

@@ -98,7 +98,7 @@ class _EmployeeOnBoardingState extends State<EmployeeOnBoarding> {
                               currentPage,
                               EmployeeInformationPageName,
                               false,
-                              "https://cleanr.ai/welcome_employees");
+                              EmployeeCleanRSkin.aboutURL);
                         }
                       case EmployeeKarmaPageName:
                         return Scaffold(
@@ -112,10 +112,10 @@ class _EmployeeOnBoardingState extends State<EmployeeOnBoarding> {
                                   context,
                                   employee,
                                   false,
-                                  "https://cleanr.ai/welcome_employees",
+                                  EmployeeCleanRSkin.aboutURL,
                                   EmployeeCleanRSkin
                                       .createEmployeeSpecificAdditionalButtons(
-                                      context, employee))),
+                                          context, employee))),
                           body: KarmaPage(
                             employee: employee,
                             currentPage: currentPage,
@@ -133,7 +133,7 @@ class _EmployeeOnBoardingState extends State<EmployeeOnBoarding> {
                                   context,
                                   employee,
                                   false,
-                                  "https://cleanr.ai/welcome_employees",
+                                  EmployeeCleanRSkin.aboutURL,
                                   EmployeeCleanRSkin
                                       .createEmployeeSpecificAdditionalButtons(
                                           context, employee))),
@@ -153,7 +153,7 @@ class _EmployeeOnBoardingState extends State<EmployeeOnBoarding> {
                                   context,
                                   snapshot.data!,
                                   false,
-                                  "https://cleanr.ai/welcome_employees",
+                                  EmployeeCleanRSkin.aboutURL,
                                   EmployeeCleanRSkin
                                       .createEmployeeSpecificAdditionalButtons(
                                           context, employee))),
