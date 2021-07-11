@@ -35,8 +35,9 @@ class KarmaPage extends StatelessWidget {
       builder: (context,
           AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
         if (snapshot.hasData) {
-          int nbEmployeeReferralsAccepted =
-              snapshot.data != null ? snapshot.data!.docs.length : 0;
+          double nbEmployeeReferralsAccepted =
+              (snapshot.data != null ? snapshot.data!.docs.length : 0)
+                  .toDouble();
           return StreamBuilder<Iterable<EmployeeContactModel>>(
               stream: employee.employeeContactModelStream(context),
               builder: (context,
@@ -52,9 +53,11 @@ class KarmaPage extends StatelessWidget {
                         AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
                             snapshot) {
                       if (snapshot.hasData) {
-                        int nbClientReferralsAccepted = snapshot.data != null
-                            ? snapshot.data!.docs.length
-                            : 0;
+                        double nbClientReferralsAccepted =
+                            (snapshot.data != null
+                                    ? snapshot.data!.docs.length
+                                    : 0)
+                                .toDouble();
                         return StreamBuilder(
                             stream: ratings.get().asStream(),
                             builder: (context,
@@ -81,26 +84,16 @@ class KarmaPage extends StatelessWidget {
                                   relationshipQualityRating /= nbRatings;
                                 }
 
-                                double karma = (contactModel != null &&
-                                            contactModel.isComplete()
-                                        ? 1.0
-                                        : 0.0) +
-                                    workQualityRating / 5.0 +
-                                    relationshipQualityRating / 5.0 -
-                                    (nbRatings > 0
-                                        ? ((0.5 - nbRatings) / nbRatings)
-                                        : 0) -
-                                    (nbClientReferralsAccepted > 0
-                                        ? ((0.5 - nbClientReferralsAccepted) /
-                                            nbClientReferralsAccepted)
-                                        : 0) -
-                                    (nbEmployeeReferralsAccepted > 0
-                                        ? ((0.5 - nbEmployeeReferralsAccepted) /
-                                            nbEmployeeReferralsAccepted)
-                                        : 0);
+                                double karmaScore =
+                                    contactModelScore(contactModel) +
+                                        workQualityRating / 5.0 +
+                                        relationshipQualityRating / 5.0 -
+                                        normalizeInfiniteToOne(nbRatings) -
+                                        normalizeInfiniteToOne(
+                                            nbClientReferralsAccepted) -
+                                        normalizeInfiniteToOne(
+                                            nbEmployeeReferralsAccepted);
 
-                                print((0.5 - nbRatings) / nbRatings);
-                                print(karma);
                                 return ListView(children: [
                                   Text(""),
                                   ListTile(
@@ -109,8 +102,8 @@ class KarmaPage extends StatelessWidget {
                                       trailing: CircularPercentIndicator(
                                           radius: 50.0,
                                           lineWidth: 5.0,
-                                          percent: karma / 7,
-                                          center: Text("$karma/7"),
+                                          percent: karmaScore / 7,
+                                          center: Text("$karmaScore/7"),
                                           progressColor: Colors.green)),
                                   ListTile(
                                     leading: Text(
@@ -151,7 +144,9 @@ class KarmaPage extends StatelessWidget {
                                     ),
                                   ),
                                   ListTile(
-                                    leading: Text(AppLocalizations.of(context).translate("RelationshipRating"),
+                                    leading: Text(
+                                        AppLocalizations.of(context)
+                                            .translate("RelationshipRating"),
                                         style: TextStyle(fontSize: 16)),
                                     trailing: AbsorbPointer(
                                       child: RatingBar(
@@ -171,17 +166,24 @@ class KarmaPage extends StatelessWidget {
                                     ),
                                   ),
                                   ListTile(
-                                      leading: Text(AppLocalizations.of(context).translate("ClientEvaluations"),
+                                      leading: Text(
+                                          AppLocalizations.of(context)
+                                              .translate("ClientEvaluations"),
                                           style: TextStyle(fontSize: 16)),
                                       trailing: Text(nbRatings.toString())),
                                   ListTile(
-                                      leading: Text(AppLocalizations.of(context).translate("ClientReferralsAccepted"),
+                                      leading: Text(
+                                          AppLocalizations.of(context)
+                                              .translate(
+                                                  "ClientReferralsAccepted"),
                                           style: TextStyle(fontSize: 16)),
                                       trailing: Text(nbClientReferralsAccepted
                                           .toString())),
                                   ListTile(
                                       leading: Text(
-                                  AppLocalizations.of(context).translate("EmployeeReferralsAccepted"),
+                                          AppLocalizations.of(context)
+                                              .translate(
+                                                  "EmployeeReferralsAccepted"),
                                           style: TextStyle(fontSize: 16)),
                                       trailing: Text(nbEmployeeReferralsAccepted
                                           .toString())),
@@ -239,5 +241,13 @@ class KarmaPage extends StatelessWidget {
         }
       },
     );
+  }
+
+  double contactModelScore(EmployeeContactModel? contactModel) {
+    return (contactModel != null && contactModel.isComplete() ? 1.0 : 0.0);
+  }
+
+  double normalizeInfiniteToOne(double nbRatings) {
+    return nbRatings > 0 ? ((0.5 - nbRatings) / nbRatings) : 0;
   }
 }
