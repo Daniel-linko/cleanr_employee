@@ -179,7 +179,7 @@ class KarmaPage extends StatelessWidget {
                                               .translate("ClientEvaluations"),
                                           style: TextStyle(
                                               fontSize: 16 * designRatio)),
-                                      trailing: Text(nbRatings.toString())),
+                                      trailing: Text(nbRatings.toStringAsFixed(0))),
                                   ListTile(
                                       leading: Text(
                                           AppLocalizations.of(context)
@@ -188,7 +188,7 @@ class KarmaPage extends StatelessWidget {
                                           style: TextStyle(
                                               fontSize: 16 * designRatio)),
                                       trailing: Text(nbClientReferralsAccepted
-                                          .toString())),
+                                          .toStringAsFixed(0))),
                                   ListTile(
                                       leading: Text(
                                           AppLocalizations.of(context)
@@ -197,7 +197,7 @@ class KarmaPage extends StatelessWidget {
                                           style: TextStyle(
                                               fontSize: 16 * designRatio)),
                                       trailing: Text(nbEmployeeReferralsAccepted
-                                          .toString())),
+                                          .toStringAsFixed(0))),
                                   Padding(
                                     padding: const EdgeInsets.all(20.0),
                                     child: Text(
