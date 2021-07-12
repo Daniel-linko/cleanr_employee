@@ -80,8 +80,10 @@ class KarmaPage extends StatelessWidget {
                                     relationshipQualityRating +=
                                         element.ratingRelationshipQuality.value;
                                   });
-                                  workQualityRating /= nbRatings;
-                                  relationshipQualityRating /= nbRatings;
+                                  if (nbRatings > 0) {
+                                    workQualityRating /= nbRatings;
+                                    relationshipQualityRating /= nbRatings;
+                                  }
                                 }
 
                                 double karmaScore =
@@ -112,7 +114,8 @@ class KarmaPage extends StatelessWidget {
                                           progressColor: Colors.green)),
                                   ListTile(
                                     leading: Text(
-                                        AppLocalizations.of(context).translate("PersonalInformationFilledOut"),
+                                        AppLocalizations.of(context).translate(
+                                            "PersonalInformationFilledOut"),
                                         style: TextStyle(
                                             fontSize: 18 * designRatio)),
                                     trailing: AbsorbPointer(
@@ -179,7 +182,8 @@ class KarmaPage extends StatelessWidget {
                                               .translate("ClientEvaluations"),
                                           style: TextStyle(
                                               fontSize: 18 * designRatio)),
-                                      trailing: Text(nbRatings.toStringAsFixed(0))),
+                                      trailing:
+                                          Text(nbRatings.toStringAsFixed(0))),
                                   ListTile(
                                       leading: Text(
                                           AppLocalizations.of(context)
