@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>cleanr&#32;employee</string>
+	<string>CrewR</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIcons</key>
@@ -48,7 +48,7 @@
 	<key>FacebookAppID</key>
 	<string>402678954157069</string>
 	<key>FacebookDisplayName</key>
-	<string>Clean&apos;R</string>
+	<string>Clean'R</string>
 	<key>FirebaseDynamicLinksCustomDomains</key>
 	<array>
 		<string>https://cleanr.link/ref</string>

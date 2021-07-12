@@ -157,48 +157,34 @@ class _MyHomePageState extends State<MyHomePage> {
       future: Firebase.initializeApp(),
       builder: (context, fireBaseAppSnapshot) {
         if (fireBaseAppSnapshot.hasData) {
-          return FutureBuilder<ServicePriceCalculator?>(
-              future: ServicePriceCalculator.create(),
-              builder: (context, spc) {
-                if (spc.hasError) {
-                  return Text("SPC Error");
-                } else if (spc.connectionState == ConnectionState.done) {
-                  return FutureBuilder(
-                    future: FirebaseMessaging.instance.requestPermission(
-                        sound: true,
-                        badge: true,
-                        alert: true,
-                        provisional: true),
-                    builder: (context, settingsSnapshot) {
-                      if (settingsSnapshot.hasData) {
-                        var settings = settingsSnapshot.data;
-                        print("Settings registered: $settings");
+          return FutureBuilder(
+            future: FirebaseMessaging.instance.requestPermission(
+                sound: true, badge: true, alert: true, provisional: true),
+            builder: (context, settingsSnapshot) {
+              if (settingsSnapshot.hasData) {
+                var settings = settingsSnapshot.data;
+                print("Settings registered: $settings");
 
-                        FirebaseMessaging.instance
-                            .getToken()
-                            .then((String? token) {
-                          assert(token != null);
-                          print("Push Messaging token: $token");
-                          deviceToken = token!;
-                        });
+                FirebaseMessaging.instance.getToken().then((String? token) {
+                  assert(token != null);
+                  print("Push Messaging token: $token");
+                  deviceToken = token!;
+                });
 
-                        return loginAndContinue();
-                      } else if (settingsSnapshot.hasError) {
-                        return Text("Error requesting messaging permissions");
-                      } else {
-                        return Text("Requesting messaging permissions");
-                      }
-                    },
-                  );
-                } else if (fireBaseAppSnapshot.hasError) {
-                  return Text("Error : Firebase.initializeApp() " +
-                      fireBaseAppSnapshot.error.toString());
-                } else {
-                  return Text("Initializing Firebase Application");
-                }
-              });
-        } else
-          return Text("");
+                return loginAndContinue();
+              } else if (settingsSnapshot.hasError) {
+                return Text("Error requesting messaging permissions");
+              } else {
+                return Text("Requesting messaging permissions");
+              }
+            },
+          );
+        } else if (fireBaseAppSnapshot.hasError) {
+          return Text("Error : Firebase.initializeApp() " +
+              fireBaseAppSnapshot.error.toString());
+        } else {
+          return Text("Initializing Firebase Application");
+        }
       },
     );
   }
@@ -230,7 +216,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   StreamBuilder<User?> initializeAuthenticationAndDynamicLinkAndContinue(
       String employeeID) {
-    this.initDynamicLinks(employeeID);
+    initDynamicLinks(employeeID);
     return StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, firebaseUserSnapshot) {
@@ -262,8 +248,17 @@ class _MyHomePageState extends State<MyHomePage> {
             });
             return Material(
                 key: ValueKey(employeeID),
-                child:
-                    initializeDynamicLinksAndContinue(employeeID, firstInfo));
+                child: FutureBuilder<ServicePriceCalculator?>(
+                    future: ServicePriceCalculator.create(),
+                    builder: (context, spc) {
+                      if (spc.hasError) {
+                        return Text("SPC Error");
+                      } else if (spc.connectionState == ConnectionState.done) {
+                        return initializeDynamicLinksAndContinue(
+                            employeeID, firstInfo);
+                      } else
+                        return Text("");
+                    }));
           } else {
             return Scaffold(
               body: Center(
@@ -277,57 +272,58 @@ class _MyHomePageState extends State<MyHomePage> {
           }
         });
   }
-}
 
-FutureBuilder<PendingDynamicLinkData?> initializeDynamicLinksAndContinue(
-    String employeeID, UserInfo? firstInfo) {
-  return FutureBuilder<PendingDynamicLinkData?>(
-      future: FirebaseDynamicLinks.instance.getInitialLink(),
-      builder: (context, initialLink) {
-        if (initialLink.hasError) {
-          return Text("Error in getInitialLink");
-        } else if (initialLink.hasData) {
-          final Uri? deepLink = initialLink.data!.link;
-          if (deepLink != null) {
-            storeReferralID(deepLink, employeeID);
+  FutureBuilder<PendingDynamicLinkData?> initializeDynamicLinksAndContinue(
+      String employeeID, UserInfo? firstInfo) {
+    return FutureBuilder<PendingDynamicLinkData?>(
+        future: FirebaseDynamicLinks.instance.getInitialLink(),
+        builder: (context, initialLink) {
+          if (initialLink.hasError) {
+            return Text("Error in getInitialLink");
+          } else if (initialLink.hasData) {
+            final Uri? deepLink = initialLink.data!.link;
+            if (deepLink != null) {
+              storeReferralID(deepLink, employeeID);
+            }
           }
-        }
-        return EmployeeOnBoarding(
-            employeeID, currentPageName, firstInfo, currentPage);
+          return EmployeeOnBoarding(
+              employeeID, currentPageName, firstInfo, currentPage);
+        });
+  }
+
+  void storeReferralID(Uri deepLink, String employeeID) {
+    print("Deep Link = $deepLink");
+    Map<String, String> queryParameters = deepLink.queryParameters;
+    queryParameters.forEach((key, value) {
+      print("--- key : $key, value : $value");
+    });
+
+    Map<String, String> map = deepLink.queryParameters;
+    if (map["uid"] != null) {
+      String uid = map["uid"]!;
+      String referralPath = "Employees/$employeeID/Referrals";
+      var referralReference =
+          FirebaseFirestore.instance.collection(referralPath).doc(uid);
+
+      FirebaseFirestore.instance.runTransaction((transaction) async {
+        transaction.set(
+          referralReference,
+          {"timestamp": DateTime.now().millisecondsSinceEpoch.toString()},
+        );
       });
-}
 
-void storeReferralID(Uri deepLink, String employeeID) {
-  print("Deep Link = $deepLink");
-  Map<String, String> queryParameters = deepLink.queryParameters;
-  queryParameters.forEach((key, value) {
-    print("--- key : $key, value : $value");
-  });
+      String referralAcceptedPath =
+          "EmployeeRatings/$uid/EmployeeReferralAcceptance";
+      var referralAcceptedReference = FirebaseFirestore.instance
+          .collection(referralAcceptedPath)
+          .doc(employeeID);
 
-  Map<String, String> map = deepLink.queryParameters;
-  if (map["uid"] != null) {
-    String uid = map["uid"]!;
-    String referralPath = "Employees/$employeeID/Referrals";
-    var referralReference =
-        FirebaseFirestore.instance.collection(referralPath).doc(uid);
-
-    FirebaseFirestore.instance.runTransaction((transaction) async {
-      transaction.set(
-        referralReference,
-        {"timestamp": DateTime.now().millisecondsSinceEpoch.toString()},
-      );
-    });
-
-    String referralAcceptedPath = "EmployeeRatings/$uid/EmployeeReferralAcceptance";
-    var referralAcceptedReference =
-    FirebaseFirestore.instance.collection(referralAcceptedPath).doc(employeeID);
-
-    FirebaseFirestore.instance.runTransaction((transaction) async {
-      transaction.set(
-        referralAcceptedReference,
-        {"timestamp": DateTime.now().millisecondsSinceEpoch.toString()},
-      );
-    });
-
+      FirebaseFirestore.instance.runTransaction((transaction) async {
+        transaction.set(
+          referralAcceptedReference,
+          {"timestamp": DateTime.now().millisecondsSinceEpoch.toString()},
+        );
+      });
+    }
   }
 }

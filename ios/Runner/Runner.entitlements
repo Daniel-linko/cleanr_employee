@@ -11,6 +11,7 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:cleanr-e.link</string>
+		<string>applinks:cleanr.link</string>
 	</array>
 </dict>
 </plist>
