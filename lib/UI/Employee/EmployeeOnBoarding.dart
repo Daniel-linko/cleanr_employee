@@ -157,6 +157,8 @@ class _EmployeeOnBoardingState extends State<EmployeeOnBoarding> {
                                   EmployeeCleanRSkin
                                       .createEmployeeSpecificAdditionalButtons(
                                           context, employee))),
+                          drawer: EmployeeCleanRSkin.createEmployeeAppDrawer(
+                              context, employee),
                           body:
                               EmployeeSharingPage(snapshot.data!, currentPage),
                         );

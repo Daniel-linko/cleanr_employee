@@ -14,7 +14,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 
 class KarmaPage extends StatelessWidget {
   final Employee employee;
-  final ValueNotifier<String> currentPage;
+  final ValueNotifier<String>? currentPage;
 
   const KarmaPage({Key? key, required this.employee, required this.currentPage})
       : super(key: key);

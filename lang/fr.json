@@ -113,14 +113,15 @@
   "Share More!": "Partagez Encore!",
   "shareButtonText": "Partager",
   "KarmaPage": "Mon Karma",
+  "Karma": "Karma",
   "ClientChats": "Chats Clients",
   "EmployeeChats": "Chats Employés",
   "HowToImproveKarma": "Votre score de Karma est décisif pour vos chances d'être engagé et aussi de recevoir des bonus pour des personnes qui deviennent des clients! Continuez à améliorer votre Karma en complétant toutes vos informations et en partageant plus!",
   "PersonalInformation": "Informations personnelles",
-  "WorkRating" : "Evaluation du travail",
-  "RelationshipRating" : "Evaluation de la Relation",
-  "ClientEvaluations" : "Evaluations Clientes",
-  "ClientReferralsAccepted" : "Clients cooptés",
-  "EmployeeReferralsAccepted" : "Employés cooptés",
-  "PersonalInformationFilledOut" : "Informations Personnelles Complétées"
+  "WorkRating": "Evaluation du travail",
+  "RelationshipRating": "Evaluation de la Relation",
+  "ClientEvaluations": "Evaluations Clientes",
+  "ClientReferralsAccepted": "Clients cooptés",
+  "EmployeeReferralsAccepted": "Employés cooptés",
+  "PersonalInformationFilledOut": "Informations Personnelles Complétées"
 }

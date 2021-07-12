@@ -11,6 +11,7 @@ import 'package:cleanr_employee/main.dart';
 import 'package:flutter/material.dart';
 
 import 'ChatOverviewPage.dart';
+import 'KarmaPage.dart';
 
 class EmployeeCleanRSkin {
   static const String aboutURL = "https://cleanr.ai/welcome_employees";
@@ -77,6 +78,21 @@ class EmployeeCleanRSkin {
           ),
           body: WelcomePage(
               employee, null, null, true, EmployeeCleanRSkin.aboutURL),
+        );
+      }));
+    }));
+    drawerItems.add(DrawerItem(Icons.stars_outlined, "Karma", () {
+      Navigator.pop(context);
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Logo(),
+            centerTitle: false,
+          ),
+          body: KarmaPage(
+            employee: employee,
+            currentPage: null,
+          ),
         );
       }));
     }));
