@@ -57,20 +57,22 @@ class ClientRatingsOverviewPage extends StatelessWidget {
 
   Widget createClientTileFromClientRatingDocument(
       EmployeeRating employeeRating) {
-    return ListTile(
-      leading: Text(employeeRating.clientDisplayName.value),
-      trailing: RatingBar(
-        itemSize: 20,
-        initialRating: employeeRating.ratingWorkQuality.value,
-        direction: Axis.horizontal,
-        allowHalfRating: true,
-        itemCount: 5,
-        ratingWidget: RatingWidget(
-          full: Icon(Icons.star),
-          half: Icon(Icons.star_half),
-          empty: Icon(Icons.star_border),
+    return AbsorbPointer(
+      child: ListTile(
+        leading: Text(employeeRating.clientDisplayName.value),
+        trailing: RatingBar(
+          itemSize: 20,
+          initialRating: employeeRating.ratingWorkQuality.value,
+          direction: Axis.horizontal,
+          allowHalfRating: true,
+          itemCount: 5,
+          ratingWidget: RatingWidget(
+            full: Icon(Icons.star),
+            half: Icon(Icons.star_half),
+            empty: Icon(Icons.star_border),
+          ),
+          onRatingUpdate: (value) {},
         ),
-        onRatingUpdate: (value) {},
       ),
     );
   }

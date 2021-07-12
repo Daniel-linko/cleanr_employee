@@ -112,7 +112,7 @@ class KarmaPage extends StatelessWidget {
                                           progressColor: Colors.green)),
                                   ListTile(
                                     leading: Text(
-                                        "Employee Information Filled Out",
+                                        AppLocalizations.of(context).translate("PersonalInformationFilledOut"),
                                         style: TextStyle(
                                             fontSize: 16 * designRatio)),
                                     trailing: AbsorbPointer(

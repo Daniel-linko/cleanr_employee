@@ -106,6 +106,8 @@
   "EmployeeAskRecommendationDefaultText": "Bonjour, je viens de déposer ma candidature chez cleanr.ai comme nettoyeur. J'augmente mes chances d'être engagé en recevant des recommendations de personnes qui ont bénéficié de mes services. Merci d'avance de suivre le lien et notez mon travail!",
   "EmployeeAskRecommendationDefaultSubject": "Bonjour, j'aurais besoin d'une recommendation pour une candidature!",
   "LoadingEmployeeSharing": "Chargement de la page de partage employés",
+  "shareTextLabel": "Text",
+  "shareSubjectLabel": "Sujet",
   "Client Ratings": "Evaluations Clientes",
   "Messages": "Messages",
   "Share More!": "Partagez Encore!",
@@ -119,5 +121,6 @@
   "RelationshipRating" : "Evaluation de la Relation",
   "ClientEvaluations" : "Evaluations Clientes",
   "ClientReferralsAccepted" : "Clients cooptés",
-  "EmployeeReferralsAccepted" : "Employés cooptés"
+  "EmployeeReferralsAccepted" : "Employés cooptés",
+  "PersonalInformationFilledOut" : "Informations Personnelles Complétées"
 }

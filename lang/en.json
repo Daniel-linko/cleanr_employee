@@ -106,6 +106,8 @@
   "EmployeeAskRecommendationDefaultText": "Hey, I applied to cleanr.ai and am increasing my chances to get hired if you rate my cleaning work for you! Please follow the link and download their app!",
   "EmployeeAskRecommendationDefaultSubject": "I would need you to rate my work!",
   "LoadingEmployeeSharing": "Loading Employee Sharing page",
+  "shareTextLabel": "Body",
+  "shareSubjectLabel": "Subject",
   "Client Ratings": "Client Ratings",
   "Messages": "Messages",
   "Share More!": "Share More!",
@@ -119,5 +121,6 @@
   "RelationshipRating" : "Relationship Rating",
   "ClientEvaluations" : "Client Evaluations",
   "ClientReferralsAccepted" : "Clients Brought In",
-  "EmployeeReferralsAccepted" : "Employees Brought In"
+  "EmployeeReferralsAccepted" : "Employees Brought In",
+  "PersonalInformationFilledOut" : "Personal Information Completed"
 }

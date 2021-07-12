@@ -78,8 +78,6 @@ class EmployeeContactModel extends ContactModel {
     return firstNameAttribute.value.isNotEmpty &&
         lastNameAttribute.value.isNotEmpty &&
         emailAttribute.value.isNotEmpty &&
-        zipCodeAttribute.value > 0 &&
-        minWeeklyHours.value > 0.0 &&
-        maxWeeklyHours.value > 0.0;
+        zipCodeAttribute.value > 0;
   }
 }
