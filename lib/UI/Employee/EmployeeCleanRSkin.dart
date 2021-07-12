@@ -32,6 +32,7 @@ class EmployeeCleanRSkin {
       BuildContext context, Employee employee) {
     List<DrawerItem> drawerItems = List<DrawerItem>.empty(growable: true);
     drawerItems.add(DrawerItem(Icons.person, "PersonalInformation", () {
+      Navigator.pop(context);
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return Scaffold(
             appBar: AppBar(
@@ -43,16 +44,19 @@ class EmployeeCleanRSkin {
       }));
     }));
     drawerItems.add(DrawerItem(Icons.star, "Client Ratings", () {
+      Navigator.pop(context);
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return ClientRatingsOverviewPage(employee: employee);
       }));
     }));
     drawerItems.add(DrawerItem(Icons.email, "Messages", () {
+      Navigator.pop(context);
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return ChatPage(employee, employee.messagePath());
       }));
     }));
     drawerItems.add(DrawerItem(Icons.share, "Share More!", () {
+      Navigator.pop(context);
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return Scaffold(
           appBar: AppBar(
@@ -64,6 +68,7 @@ class EmployeeCleanRSkin {
       }));
     }));
     drawerItems.add(DrawerItem(Icons.info, "About", () {
+      Navigator.pop(context);
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return Scaffold(
           appBar: AppBar(
@@ -88,6 +93,7 @@ class EmployeeCleanRSkin {
           IconButton(
             icon: Icon(Icons.message),
             onPressed: () {
+              Navigator.pop(context);
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return ChatOverviewPage(user: user);
               }));
